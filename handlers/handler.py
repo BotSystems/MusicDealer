@@ -77,4 +77,4 @@ def send_info(bot, update):
 def init_handlers(dispatcher):
     dispatcher.add_handler(CommandHandler('start', send_info))
     dispatcher.add_handler(MessageHandler(None, search_audio))
-    # return dispatcher
+    return dispatcher

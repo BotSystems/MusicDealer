@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from telegram import InlineKeyboardMarkup, InlineKeyboardButton
-from telegram.ext import MessageHandler, CommandHandler
+from telegram.ext import MessageHandler, CommandHandler, CallbackQueryHandler
 import json
 import os.path
 
@@ -57,24 +57,46 @@ import os.path
 #             bot.send_message(update.callback_query.message.chat.id, result, parse_mode='Markdown',
 #                              reply_markup=build_keyboard())
 #
-from handlers.finder import search_first_data_url, normalize_song_name, get_download_url
+from handlers.decorators import save_chanel_decorator
+from handlers.finder import parse_result, normalize_song_name, normalize_download_url
+
+
+def build_download_keyboard(songs_data):
+    download_buttons = []
+    for title, url in songs_data:
+        inline_download_button = InlineKeyboardButton(title, callback_data=url)
+        download_buttons.append([inline_download_button])
+    return download_buttons
 
 
 def search_audio(bot, update):
-    data_url = search_first_data_url(normalize_song_name(update.message.text))
-    download_url = get_download_url(data_url)
-    if download_url is None:
-        bot.send_message(update.message.chat.id, 'I really tried but i can`t find anything :(')
+    bot.send_message(update.message.chat.id, 'Searching...')
+    songs_data = parse_result(normalize_song_name(update.message.text))
+    songs_data = list(filter(None, songs_data))
+    # download_urls = [get_download_urls(url) for url in songs_data]
+    buttons = build_download_keyboard(songs_data)
+    keyboard = InlineKeyboardMarkup(buttons)
+
+    if buttons:
+        bot.send_message(update.message.chat.id, 'I find something interesting...', reply_markup=keyboard)
     else:
-        bot.send_audio(update.message.chat.id, download_url)
+        bot.send_message(update.message.chat.id, 'I really tried but i can`t find anything :(')
 
 
+@save_chanel_decorator
 def send_info(bot, update):
     message = 'I can find and send audio file for you, if you tell me what I need to find :)'
     bot.send_message(update.message.chat.id, message)
+
+def download_song(bot, update, *args, **kwargs):
+    query = update.callback_query
+    # print(update)
+    download_url = normalize_download_url(query.data)
+    bot.send_audio(query.message.chat_id, download_url)
 
 
 def init_handlers(dispatcher):
     dispatcher.add_handler(CommandHandler('start', send_info))
     dispatcher.add_handler(MessageHandler(None, search_audio))
+    dispatcher.add_handler(CallbackQueryHandler(download_song, pass_update_queue=True))
     return dispatcher

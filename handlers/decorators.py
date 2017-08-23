@@ -9,10 +9,13 @@ BOTAN_TOKEN = os.getenv('BOTAN_TOKEN')
 
 
 def save_chanel_decorator(fn):
-    def wrapper(bot, update):
+    def wrapper(bot, update, *args, **kwargs):
         print('SAVE CHANEL')
 
         try:
+            if(update.callback_query):
+                update = update.callback_query
+
             first_name = update.message.chat.first_name
             last_name = update.message.chat.last_name
 
@@ -22,7 +25,7 @@ def save_chanel_decorator(fn):
         except Exception as ex:
             print(ex)
 
-        return fn(bot, update)
+        return fn(bot, update, *args, **kwargs)
 
     return wrapper
 

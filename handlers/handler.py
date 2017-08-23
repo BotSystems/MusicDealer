@@ -70,17 +70,20 @@ def build_download_keyboard(songs_data):
 
 
 def search_audio(bot, update):
-    bot.send_message(update.message.chat.id, 'Searching...')
-    songs_data = parse_result(normalize_song_name(update.message.text))
-    songs_data = list(filter(None, songs_data))
-    # download_urls = [get_download_urls(url) for url in songs_data]
-    buttons = build_download_keyboard(songs_data)
-    keyboard = InlineKeyboardMarkup(buttons)
+    try:
+        bot.send_message(update.message.chat.id, 'Searching...')
+        songs_data = parse_result(normalize_song_name(update.message.text))
+        songs_data = list(filter(None, songs_data))
+        # download_urls = [get_download_urls(url) for url in songs_data]
+        buttons = build_download_keyboard(songs_data)
+        keyboard = InlineKeyboardMarkup(buttons)
 
-    if buttons:
-        bot.send_message(update.message.chat.id, 'I find something interesting...', reply_markup=keyboard)
-    else:
-        bot.send_message(update.message.chat.id, 'I really tried but i can`t find anything :(')
+        if buttons:
+            bot.send_message(update.message.chat.id, 'I find something interesting...', reply_markup=keyboard)
+        else:
+            bot.send_message(update.message.chat.id, 'I really tried but i can`t find anything :(')
+    except Exception as ex:
+        print(ex)
 
 
 @save_chanel_decorator

@@ -52,14 +52,17 @@ from bs4 import BeautifulSoup
 def prepare_result(html):
     result = []
 
-    result_div_html = find_result_div(html)
-    result_items_html = find_result_items(result_div_html)
+    try:
+        result_div_html = find_result_div(html)
+        result_items_html = find_result_items(result_div_html)
 
-    for result_item in result_items_html:
-        artist = find_artist_name(result_item)
-        song = find_song_title(result_item)
-        data_url = find_data_url(result_item)
-        result.append(('{} - {}'.format(artist, song), data_url))
+        for result_item in result_items_html:
+            artist = find_artist_name(result_item)
+            song = find_song_title(result_item)
+            data_url = find_data_url(result_item)
+            result.append(('{} - {}'.format(artist, song), data_url))
+    except Exception as ex:
+        print(ex)
 
     return result
 

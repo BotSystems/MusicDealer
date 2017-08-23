@@ -28,9 +28,9 @@ class Chanel(Model):
     created_at = DateTimeField(default=datetime.datetime.now)
     updated_at = DateTimeField(default=datetime.datetime.now)
 
-    def save(self, force_insert=False, only=None):
+    def update_me(self):
         self.updated_at = datetime.datetime.now()
-        return super(Chanel, self).save(force_insert, only)
+        self.save()
 
     class Meta:
         database = db

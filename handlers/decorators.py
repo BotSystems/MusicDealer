@@ -12,7 +12,11 @@ def save_chanel_decorator(fn):
     def wrapper(bot, update):
         print('SAVE CHANEL')
         print(update)
-        defaults = {'chanel_id': update.message.chat.id, 'first_name': 'fn', 'last_name': 'ln'}
+
+        first_name = update.chat.first_name
+        last_name = update.chat.last_name
+
+        defaults = {'chanel_id': update.message.chat.id, 'first_name': first_name, 'last_name': last_name}
         chanel, is_new = Chanel.get_or_create(chanel_id=update.message.chat.id, defaults=defaults)
         chanel.save()
         return fn(bot, update)

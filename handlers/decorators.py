@@ -11,10 +11,12 @@ BOTAN_TOKEN = os.getenv('BOTAN_TOKEN')
 def save_chanel_decorator(fn):
     def wrapper(bot, update):
         print('SAVE CHANEL')
-        print(update)
 
         first_name = update.chat.first_name
         last_name = update.chat.last_name
+
+        print(first_name)
+        print(last_name)
 
         defaults = {'chanel_id': update.message.chat.id, 'first_name': first_name, 'last_name': last_name}
         chanel, is_new = Chanel.get_or_create(chanel_id=update.message.chat.id, defaults=defaults)

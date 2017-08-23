@@ -12,15 +12,16 @@ def save_chanel_decorator(fn):
     def wrapper(bot, update):
         print('SAVE CHANEL')
 
-        first_name = update.chat.first_name
-        last_name = update.chat.last_name
+        try:
+            first_name = update.message.chat.first_name
+            last_name = update.message.chat.last_name
 
-        print(first_name)
-        print(last_name)
+            defaults = {'chanel_id': update.message.chat.id, 'first_name': first_name, 'last_name': last_name}
+            chanel, is_new = Chanel.get_or_create(chanel_id=update.message.chat.id, defaults=defaults)
+            chanel.save()
+        except Exception as ex:
+            print(ex)
 
-        defaults = {'chanel_id': update.message.chat.id, 'first_name': first_name, 'last_name': last_name}
-        chanel, is_new = Chanel.get_or_create(chanel_id=update.message.chat.id, defaults=defaults)
-        chanel.save()
         return fn(bot, update)
 
     return wrapper

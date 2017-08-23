@@ -12,8 +12,6 @@ def save_chanel_decorator(fn):
     def wrapper(bot, update, *args, **kwargs):
         print('SAVE CHANEL')
 
-        print(update.callback_query)
-
         try:
             if(update.callback_query):
                 chat_id = update.callback_query.message.chat.id

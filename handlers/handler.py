@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from telegram import InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import MessageHandler, CommandHandler, CallbackQueryHandler
+from handlers.messages import get_message_by_key
 import json
 import os.path
 
@@ -72,7 +73,7 @@ def build_download_keyboard(songs_data):
 @save_chanel_decorator
 def search_audio(bot, update):
     try:
-        bot.send_message(update.message.chat.id, 'Searching...')
+        bot.send_message(update.message.chat.id, get_message_by_key('searching'))
         songs_data = parse_result(normalize_song_name(update.message.text))
         songs_data = list(filter(None, songs_data))
         # download_urls = [get_download_urls(url) for url in songs_data]
@@ -80,16 +81,17 @@ def search_audio(bot, update):
         keyboard = InlineKeyboardMarkup(buttons)
 
         if buttons:
-            bot.send_message(update.message.chat.id, 'I find something interesting...', reply_markup=keyboard)
+            bot.send_message(update.message.chat.id, get_message_by_key('i_find'), reply_markup=keyboard)
         else:
-            bot.send_message(update.message.chat.id, 'I really tried but i can`t find anything :(')
+            bot.send_message(update.message.chat.id, get_message_by_key('i_try'))
     except Exception as ex:
         print(ex)
 
 
 @save_chanel_decorator
 def send_info(bot, update):
-    message = 'I can find and send audio file for you, if you tell me what I need to find :)'
+    message = get_message_by_key('intro')
+    # message = 'I can find and send audio file for you, if you tell me what I need to find :)'
     bot.send_message(update.message.chat.id, message)
 
 @save_chanel_decorator

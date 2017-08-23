@@ -22,7 +22,7 @@ def save_chanel_decorator(fn):
 
             defaults = {'chanel_id': update.message.chat.id, 'first_name': first_name, 'last_name': last_name}
             chanel, is_new = Chanel.get_or_create(chanel_id=update.message.chat.id, defaults=defaults)
-            chanel.save()
+            chanel.save(True)
         except Exception as ex:
             print(ex)
 

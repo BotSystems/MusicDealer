@@ -1,8 +1,9 @@
+import datetime
 import os
 from os.path import join, dirname
-from dotenv import load_dotenv
 
-from peewee import PostgresqlDatabase, Model, IntegerField
+from dotenv import load_dotenv
+from peewee import PostgresqlDatabase, Model, IntegerField, CharField, DateTimeField
 
 if os.path.isfile('.env.settings'):
     dotenv_path = join(dirname(__file__), '.env.settings')
@@ -20,6 +21,16 @@ db = PostgresqlDatabase(os.getenv('DB_NAME'), **DATABASE_CREDENTIALS)
 
 class Chanel(Model):
     chanel_id = IntegerField(unique=True)
+
+    first_name = CharField()
+    last_name = CharField()
+
+    created_at = DateTimeField(default=datetime.datetime.now)
+    updated_at = DateTimeField(default=datetime.datetime.now)
+
+    def save(self, force_insert=False, only=None):
+        self.updated_at = datetime.datetime.now()
+        return super(Chanel, self).save(force_insert, only)
 
     class Meta:
         database = db

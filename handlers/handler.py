@@ -69,6 +69,7 @@ def build_download_keyboard(songs_data):
     return download_buttons
 
 
+@save_chanel_decorator
 def search_audio(bot, update):
     try:
         bot.send_message(update.message.chat.id, 'Searching...')
@@ -91,6 +92,7 @@ def send_info(bot, update):
     message = 'I can find and send audio file for you, if you tell me what I need to find :)'
     bot.send_message(update.message.chat.id, message)
 
+@save_chanel_decorator
 def download_song(bot, update, *args, **kwargs):
     query = update.callback_query
     # print(update)

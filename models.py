@@ -22,8 +22,8 @@ db = PostgresqlDatabase(os.getenv('DB_NAME'), **DATABASE_CREDENTIALS)
 class Chanel(Model):
     chanel_id = IntegerField(unique=True)
 
-    first_name = CharField()
-    last_name = CharField()
+    first_name = CharField(null=True)
+    last_name = CharField(null=True)
 
     created_at = DateTimeField(default=datetime.datetime.now)
     updated_at = DateTimeField(default=datetime.datetime.now)

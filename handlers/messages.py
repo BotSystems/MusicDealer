@@ -18,7 +18,9 @@ MESSAGES = {
 
 selected_language = os.getenv('LANGUAGE', 'EN')
 
+
 def get_message(language, messages, key):
     return messages[language][key]
+
 
 get_message_by_key = partial(partial(get_message, selected_language), MESSAGES)

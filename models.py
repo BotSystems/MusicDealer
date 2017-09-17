@@ -41,3 +41,13 @@ class Download(Model):
 
     class Meta:
         database = db
+
+
+if __name__ == '__main__':
+    chat_id = '123'
+    defaults = {'chanel_id': '123', 'first_name': 'first name', 'last_name': 'last name'}
+    chanel, is_new = Chanel.get_or_create(chanel_id=chat_id, defaults=defaults)
+
+    print(chanel)
+
+    Download.create(chanel=chanel)

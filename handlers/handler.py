@@ -40,7 +40,7 @@ def send_info(bot, update):
 
 
 @save_chanel_decorator
-@save_download_decorator
+# @save_download_decorator
 def download_song(bot, update, *args, **kwargs):
     query = update.callback_query
     download_url = normalize_download_url(query.data)

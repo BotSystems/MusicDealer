@@ -3,15 +3,15 @@ from functools import partial
 
 MESSAGES = {
     'RU': {
-        'intro': 'Я могу найти и загрузить музыку для тебя, если ты мне скажешь что искать :)',
+        'intro': 'Отправь мне имя исполнителя, либо название песни и я постараюсь её найти. Автор бота: @igorkpl.',
         'searching': 'Ищу...',
-        'i_find': 'Я нашел кое-что интересное...',
+        'i_find': 'Смотри, что я нашел:',
         'i_try': 'Я действительно старался, но нет ничего :('
     },
     'EN': {
         'intro': 'I can find and send audio file for you, if you tell me what I need to find :)',
         'searching': 'Searching...',
-        'i_find': 'I find something interesting...',
+        'i_find': 'Check this sounds, bro:',
         'i_try': 'I really tried but i can`t find anything :('
     }
 }

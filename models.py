@@ -3,7 +3,7 @@ import os
 from os.path import join, dirname
 
 from dotenv import load_dotenv
-from peewee import PostgresqlDatabase, Model, IntegerField, CharField, DateTimeField
+from peewee import PostgresqlDatabase, Model, IntegerField, CharField, DateTimeField, ForeignKeyField
 
 if os.path.isfile('.env.settings'):
     dotenv_path = join(dirname(__file__), '.env.settings')
@@ -31,6 +31,13 @@ class Chanel(Model):
     def update_me(self):
         self.updated_at = datetime.datetime.now()
         self.save()
+
+    class Meta:
+        database = db
+
+class Download(Model):
+    chanel = ForeignKeyField(Chanel)
+    created_at = DateTimeField(default=datetime.datetime.now)
 
     class Meta:
         database = db

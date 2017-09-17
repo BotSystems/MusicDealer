@@ -2,7 +2,7 @@
 from telegram import InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import MessageHandler, CommandHandler, CallbackQueryHandler
 
-from handlers.decorators import save_chanel_decorator
+from handlers.decorators import save_chanel_decorator, save_download_decorator
 from handlers.finder import parse_result, normalize_song_name, normalize_download_url
 from handlers.messages import get_message_by_key
 
@@ -40,6 +40,7 @@ def send_info(bot, update):
 
 
 @save_chanel_decorator
+@save_download_decorator
 def download_song(bot, update, *args, **kwargs):
     query = update.callback_query
     download_url = normalize_download_url(query.data)

@@ -34,7 +34,7 @@ def save_download_decorator(fn):
 
         try:
             chat_id = update.callback_query.message.chat.id
-            chanel_obj, _ = Chanel.get(Chanel.chanel_id == chat_id)
+            chanel_obj = Chanel.get(Chanel.chanel_id == chat_id)
             Download.create(chanel=chanel_obj)
         except Exception as ex:
             print(ex)

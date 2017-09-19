@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from telegram import InlineKeyboardMarkup, InlineKeyboardButton
-from telegram.ext import MessageHandler, CommandHandler, CallbackQueryHandler
+from telegram.ext import MessageHandler, CommandHandler, CallbackQueryHandler, Filters
 
 from handlers.decorators import save_chanel_decorator, save_download_decorator
 from handlers.finder import parse_result, normalize_song_name, normalize_download_url
@@ -49,6 +49,6 @@ def download_song(bot, update, *args, **kwargs):
 
 def init_handlers(dispatcher):
     dispatcher.add_handler(CommandHandler('start', send_info))
-    dispatcher.add_handler(MessageHandler(None, search_audio))
+    dispatcher.add_handler(MessageHandler(Filters.text, search_audio))
     dispatcher.add_handler(CallbackQueryHandler(download_song, pass_update_queue=True))
     return dispatcher

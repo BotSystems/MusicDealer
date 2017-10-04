@@ -4,4 +4,4 @@ from models import Chanel, Download, Area, db
 db.connect()
 
 # Create the tables.
-db.create_tables([Chanel, Download, Area])
+db.create_tables([Area, Chanel, Download])

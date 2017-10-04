@@ -32,7 +32,7 @@ class Area(Model):
 class Chanel(Model):
     area = ForeignKeyField(Area)
 
-    chanel_id = IntegerField(unique=True)
+    chanel_id = IntegerField()
 
     first_name = CharField(null=True)
     last_name = CharField(null=True)

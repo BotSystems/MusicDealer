@@ -18,8 +18,16 @@ DATABASE_CREDENTIALS = {
 
 db = PostgresqlDatabase(os.getenv('DB_NAME'), **DATABASE_CREDENTIALS)
 
+DEFAULT_LANGUAGE = 'RU'
+
+class Area(Model):
+    title = CharField()
+    token = CharField(unique=True)
+    language = CharField(default=DEFAULT_LANGUAGE)
 
 class Chanel(Model):
+    area = ForeignKeyField(Area, 'fk_area_chanels')
+
     chanel_id = IntegerField(unique=True)
 
     first_name = CharField(null=True)

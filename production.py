@@ -4,15 +4,21 @@ import telegram
 from flask import Flask, request
 from telegram.ext import Dispatcher
 
+from bot_manager import Bot
 from handlers.handler import init_handlers
 
 app = Flask(__name__)
+
 bot = telegram.Bot(os.getenv('TOKEN'))
 dispatcher = init_handlers(Dispatcher(bot, None, workers=0))
 
+tokens = (os.getenv('TOKEN'))
 
-@app.route('/' + os.getenv('TOKEN'), methods=['GET', 'POST'])
-def webhook_handler():
+# bot = Bot()
+
+
+@app.route('/<token>', methods=['GET', 'POST'])
+def webhook_handler(token):
     if request.method == "POST":
         update = telegram.Update.de_json(request.get_json(force=True), bot)
         dispatcher.process_update(update)

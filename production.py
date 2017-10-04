@@ -29,8 +29,8 @@ for _area in areas:
 
 @app.route('/<token>', methods=['GET', 'POST'])
 def webhook_handler(token):
-    selected_bot = bots[token]
     print(token)
+    selected_bot = bots[token]
     print(selected_bot)
     if request.method == "POST":
         update = telegram.Update.de_json(request.get_json(force=True), selected_bot)

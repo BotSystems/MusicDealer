@@ -17,7 +17,7 @@ def save_chanel_decorator(fn):
                 first_name = update.message.chat.first_name
                 last_name = update.message.chat.last_name
 
-            defaults = {'chanel_id': chat_id, 'first_name': first_name, 'last_name': last_name}
+            defaults = {'chanel_id': chat_id, 'first_name': first_name, 'last_name': last_name, 'area': bot.area}
             chanel, is_new = Chanel.get_or_create(chanel_id=chat_id, defaults=defaults)
             chanel.update_me()
         except Exception as ex:

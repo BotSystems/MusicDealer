@@ -5,8 +5,9 @@ from os.path import join, dirname
 from dotenv import load_dotenv
 from peewee import PostgresqlDatabase, Model, IntegerField, CharField, DateTimeField, ForeignKeyField
 
-if os.path.isfile('.env.settings'):
-    dotenv_path = join(dirname(__file__), '.env.settings')
+if os.path.isfile('.env.local'):
+    print('INIT DB')
+    dotenv_path = join(dirname(__file__), '.env.local')
     load_dotenv(dotenv_path)
 
 DATABASE_CREDENTIALS = {

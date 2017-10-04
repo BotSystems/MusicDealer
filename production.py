@@ -34,7 +34,7 @@ def webhook_handler(token):
     print(selected_bot)
     if request.method == "POST":
         update = telegram.Update.de_json(request.get_json(force=True), selected_bot)
-        selected_bot.dispatcher(update)
+        selected_bot.dispatcher.process_update(update)
     return 'ok!'
 
 

@@ -25,8 +25,11 @@ class Area(Model):
     token = CharField(unique=True)
     language = CharField(default=DEFAULT_LANGUAGE)
 
+    class Meta:
+        database = db
+
 class Chanel(Model):
-    area = ForeignKeyField(Area, 'fk_area_chanels')
+    area = ForeignKeyField(Area)
 
     chanel_id = IntegerField(unique=True)
 
@@ -52,10 +55,4 @@ class Download(Model):
 
 
 if __name__ == '__main__':
-    chat_id = '123'
-    defaults = {'chanel_id': '123', 'first_name': 'first name', 'last_name': 'last name'}
-    chanel, is_new = Chanel.get_or_create(chanel_id=chat_id, defaults=defaults)
-
-    print(chanel)
-
-    Download.create(chanel=chanel)
+    pass

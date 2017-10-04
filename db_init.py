@@ -1,4 +1,4 @@
-from models import Chanel, Download, Area, db
+from models import Area, Chanel, Download, db
 
 # Connect to our database.
 db.connect()

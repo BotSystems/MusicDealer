@@ -11,4 +11,4 @@ class Factory:
         bot.area = area
         bot.dispatcher = init_handlers(Dispatcher(bot, None, workers=0))
 
-        return area
+        return bot

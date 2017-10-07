@@ -3,7 +3,7 @@ from urllib.parse import urljoin
 
 import requests
 
-from handlers.audio_parsers import prepare_result
+from core.handlers.audio_parsers import prepare_result
 
 SEARCH_URL = 'http://zaycev.net/search.html?query_search={song_name}'
 DOWNLOAD_URL = 'http://zaycev.net'

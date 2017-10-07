@@ -1,6 +1,8 @@
-from models import Area, Chanel, Download, db
+from core.area.models import Area
+from core.chanel.models import Chanel
+from core.database import db
+from core.download.models import Download
 
-# Connect to our database.
 db.connect()
 
 # Create the tables.

@@ -2,9 +2,9 @@
 from telegram import InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import MessageHandler, CommandHandler, CallbackQueryHandler, Filters
 
-from handlers.decorators import save_chanel_decorator, save_download_decorator
-from handlers.finder import parse_result, normalize_song_name, normalize_download_url
-from handlers.messages import get_message_by_key
+from core.handlers.decorators import save_chanel_decorator, save_download_decorator
+from core.handlers.finder import parse_result, normalize_song_name, normalize_download_url
+from core.handlers.messages import get_message_by_key
 
 
 def build_download_keyboard(songs_data):

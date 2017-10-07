@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-
-from models import Chanel, Download
+from core.chanel.models import Chanel
+from core.download.models import Download
 
 
 def save_chanel_decorator(fn):

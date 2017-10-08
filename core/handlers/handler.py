@@ -2,6 +2,7 @@
 from telegram import InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import MessageHandler, CommandHandler, CallbackQueryHandler, Filters
 
+from core.adv.controller import send_adv
 from core.handlers.decorators import save_chanel_decorator, save_download_decorator
 from core.handlers.finder import parse_result, normalize_song_name, normalize_download_url
 from core.handlers.messages import Messages
@@ -49,6 +50,7 @@ def download_song(bot, update, *args, **kwargs):
     query = update.callback_query
     download_url = normalize_download_url(query.data)
     bot.send_audio(query.message.chat_id, download_url)
+    send_adv(bot, query.message.chat_id)
 
 
 def init_handlers(dispatcher):

@@ -15,7 +15,7 @@ storage.create(advs.get('data', []))
 
 def send_adv(bot, chat_id):
     try:
-        if (len(Area.select()) % 10 == os.getenv('SEND_ADV_PER_ACTION', 5)):
+        if (len(Area.select()) % int(os.getenv('SEND_ADV_PER_ACTION', 5)) == 0):
             adv = storage.get()
             bot.send_message(chat_id, adv.build_message(), reply_markup=adv.build_keyboard(), parse_mode='Markdown')
     except Exception as ex:

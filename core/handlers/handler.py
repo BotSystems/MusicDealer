@@ -47,10 +47,11 @@ def send_info(bot, update):
 @save_chanel_decorator
 @save_download_decorator
 def download_song(bot, update, *args, **kwargs):
+    messages.set_language(bot.area.language)
     query = update.callback_query
     download_url = normalize_download_url(query.data)
     bot.send_audio(query.message.chat_id, download_url)
-    send_adv(bot, query.message.chat_id)
+    send_adv(bot, query.message.chat_id, messages)
 
 
 def init_handlers(dispatcher):

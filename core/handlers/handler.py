@@ -36,7 +36,7 @@ def send_botonarioum_info(bot, update):
     print('ok2')
     button = [[InlineKeyboardButton('Присоединиться', url='https://t.me/botonarioum')]]
     print('ok3')
-    return bot.send_message(update.message.chat.id, message, InlineKeyboardMarkup(button))
+    return bot.send_message(update.message.chat.id, message, reply_markup=InlineKeyboardMarkup(button))
 
 
 class BotonarioumFilter(BaseFilter):

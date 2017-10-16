@@ -14,7 +14,7 @@ messages = Messages()
 def _build_botonarioum_keyboard(bot, update):
     area = Area.get(Area.token == bot.area.token)
     if (area.language in ('RU')):
-        keyboard = ReplyKeyboardMarkup([['::Ботонариум::']])
+        keyboard = ReplyKeyboardMarkup([['::Ботонариум::']], resize_keyboard=True)
         bot.send_message(update.message.chat.id, messages.get_massage('i_find'), reply_markup=keyboard)
 
 

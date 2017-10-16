@@ -1,13 +1,21 @@
 # -*- coding: utf-8 -*-
-from telegram import InlineKeyboardMarkup, InlineKeyboardButton
+from telegram import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup
 from telegram.ext import MessageHandler, CommandHandler, CallbackQueryHandler, Filters
 
 from core.adv.controller import send_adv
+from core.area.models import Area
 from core.handlers.decorators import save_chanel_decorator, save_download_decorator
 from core.handlers.finder import parse_result, normalize_song_name, normalize_download_url
 from core.handlers.messages import Messages
 
 messages = Messages()
+
+
+def _build_botonarioum_keyboard(bot, update):
+    area = Area.get(Area.token == bot.area.token)
+    if (area.language in ('RU')):
+        keyboard = ReplyKeyboardMarkup([['::Ботонариум::']])
+        bot.send_message(update.message.chat.id, messages.get_massage('i_find'), reply_markup=keyboard)
 
 
 def build_download_keyboard(songs_data):
@@ -21,6 +29,7 @@ def build_download_keyboard(songs_data):
 @save_chanel_decorator
 def search_audio(bot, update):
     messages.set_language(bot.area.language)
+    _build_botonarioum_keyboard(bot, update)
     try:
         bot.send_message(update.message.chat.id, messages.get_massage('searching'))
         songs_data = parse_result(normalize_song_name(update.message.text))

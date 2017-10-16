@@ -80,7 +80,7 @@ def download_song(bot, update, *args, **kwargs):
 
 def init_handlers(dispatcher):
     dispatcher.add_handler(CommandHandler('start', send_info))
-    dispatcher.add_handler(MessageHandler(BotonarioumFilter, send_botonarioum_info))
+    dispatcher.add_handler(MessageHandler(BotonarioumFilter(), send_botonarioum_info))
     dispatcher.add_handler(MessageHandler(Filters.text, search_audio))
     dispatcher.add_handler(CallbackQueryHandler(download_song, pass_update_queue=True))
     return dispatcher

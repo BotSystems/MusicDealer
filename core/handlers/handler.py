@@ -67,11 +67,11 @@ def search_audio(bot, update):
 def send_info(bot, update):
     messages.set_language(bot.area.language)
     message = messages.get_massage('intro')
-    area = Area.get(Area.token == bot.area.token)
-    if (area.language in ('RU')):
-        buttons = [[BOTONARIOUM]]
-        keyboard = ReplyKeyboardMarkup(buttons, resize_keyboard=True)
-        return bot.send_message(update.message.chat.id, message, reply_markup=keyboard)
+    # area = Area.get(Area.token == bot.area.token)
+    # if (area.language in ('RU')):
+    #     buttons = [[BOTONARIOUM]]
+    #     keyboard = ReplyKeyboardMarkup(buttons, resize_keyboard=True)
+    #     return bot.send_message(update.message.chat.id, message, reply_markup=keyboard)
     return bot.send_message(update.message.chat.id, message)
 
 

@@ -10,11 +10,13 @@ from core.handlers.messages import Messages
 
 messages = Messages()
 
+BOTONARIOUM = '::Ботонариум::'
+
 
 def _build_botonarioum_keyboard(bot, update):
     area = Area.get(Area.token == bot.area.token)
     if (area.language in ('RU')):
-        keyboard = ReplyKeyboardMarkup([['::Ботонариум::']], resize_keyboard=True)
+        keyboard = ReplyKeyboardMarkup([[BOTONARIOUM]], resize_keyboard=True)
         bot.send_message(update.message.chat.id, messages.get_massage('i_find'), reply_markup=keyboard)
 
 
@@ -54,6 +56,14 @@ def send_info(bot, update):
 
 
 @save_chanel_decorator
+def send_botonarioum_info(bot, update):
+    messages.set_language(bot.area.language)
+    message = 'Ботонариум - вселенная, где обитают боты.'
+    button = [InlineKeyboardButton('Присоединиться', url='https://t.me/botonarioum')]
+    bot.send_message(update.message.chat.id, message, InlineKeyboardMarkup([button]))
+
+
+@save_chanel_decorator
 @save_download_decorator
 def download_song(bot, update, *args, **kwargs):
     messages.set_language(bot.area.language)
@@ -65,6 +75,7 @@ def download_song(bot, update, *args, **kwargs):
 
 def init_handlers(dispatcher):
     dispatcher.add_handler(CommandHandler('start', send_info))
+    dispatcher.add_handler(CommandHandler(BOTONARIOUM, send_botonarioum_info))
     dispatcher.add_handler(MessageHandler(Filters.text, search_audio))
     dispatcher.add_handler(CallbackQueryHandler(download_song, pass_update_queue=True))
     return dispatcher

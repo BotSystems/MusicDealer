@@ -33,8 +33,7 @@ def build_download_keyboard(songs_data):
 def send_botonarioum_info(bot, update):
     message = 'Ботонариум - вселенная, где обитают боты.'
     button = [[InlineKeyboardButton('Присоединиться', url='https://t.me/botonarioum')]]
-    bot.send_message(update.message.chat.id, message)
-    bot.send_message(update.message.chat.id, message, InlineKeyboardMarkup(button))
+    return bot.send_message(update.message.chat.id, message, InlineKeyboardMarkup(button))
 
 
 class BotonarioumFilter(BaseFilter):

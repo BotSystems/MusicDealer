@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from telegram import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup
-from telegram.ext import MessageHandler, CommandHandler, CallbackQueryHandler, Filters
+from telegram.ext import MessageHandler, CommandHandler, CallbackQueryHandler, Filters, BaseFilter
 
 from core.adv.controller import send_adv
 from core.area.models import Area
@@ -26,6 +26,19 @@ def build_download_keyboard(songs_data):
         inline_download_button = InlineKeyboardButton(title, callback_data=url)
         download_buttons.append([inline_download_button])
     return download_buttons
+
+
+@save_chanel_decorator
+def send_botonarioum_info(bot, update):
+    messages.set_language(bot.area.language)
+    message = 'Ботонариум - вселенная, где обитают боты.'
+    button = [InlineKeyboardButton('Присоединиться', url='https://t.me/botonarioum')]
+    bot.send_message(update.message.chat.id, message, InlineKeyboardMarkup([button]))
+
+
+class BotonarioumFilter(BaseFilter):
+    def filter(self, message):
+        return bool(message.text == BOTONARIOUM)
 
 
 @save_chanel_decorator
@@ -56,14 +69,6 @@ def send_info(bot, update):
 
 
 @save_chanel_decorator
-def send_botonarioum_info(bot, update):
-    messages.set_language(bot.area.language)
-    message = 'Ботонариум - вселенная, где обитают боты.'
-    button = [InlineKeyboardButton('Присоединиться', url='https://t.me/botonarioum')]
-    bot.send_message(update.message.chat.id, message, InlineKeyboardMarkup([button]))
-
-
-@save_chanel_decorator
 @save_download_decorator
 def download_song(bot, update, *args, **kwargs):
     messages.set_language(bot.area.language)
@@ -75,7 +80,7 @@ def download_song(bot, update, *args, **kwargs):
 
 def init_handlers(dispatcher):
     dispatcher.add_handler(CommandHandler('start', send_info))
-    dispatcher.add_handler(CommandHandler(BOTONARIOUM, send_botonarioum_info))
+    dispatcher.add_handler(MessageHandler(BotonarioumFilter, send_botonarioum_info))
     dispatcher.add_handler(MessageHandler(Filters.text, search_audio))
     dispatcher.add_handler(CallbackQueryHandler(download_song, pass_update_queue=True))
     return dispatcher

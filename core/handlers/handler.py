@@ -13,11 +13,12 @@ messages = Messages()
 BOTONARIOUM = '::Ботонариум::'
 
 
-def _build_botonarioum_keyboard(bot, update):
-    area = Area.get(Area.token == bot.area.token)
-    if (area.language in ('RU')):
-        keyboard = ReplyKeyboardMarkup([[BOTONARIOUM]], resize_keyboard=True)
-        bot.send_message(update.message.chat.id, messages.get_massage('i_find'), reply_markup=keyboard)
+# def _build_botonarioum_keyboard(bot, update):
+#     area = Area.get(Area.token == bot.area.token)
+#     if (area.language in ('RU')):
+#         buttons = [[BOTONARIOUM]]
+#         keyboard = ReplyKeyboardMarkup(buttons, resize_keyboard=True)
+#         bot.send_message(update.message.chat.id, messages.get_massage('i_find'), reply_markup=keyboard)
 
 
 def build_download_keyboard(songs_data):
@@ -30,10 +31,10 @@ def build_download_keyboard(songs_data):
 
 @save_chanel_decorator
 def send_botonarioum_info(bot, update):
-    messages.set_language(bot.area.language)
     message = 'Ботонариум - вселенная, где обитают боты.'
-    button = [InlineKeyboardButton('Присоединиться', url='https://t.me/botonarioum')]
-    bot.send_message(update.message.chat.id, message, InlineKeyboardMarkup([button]))
+    button = [[InlineKeyboardButton('Присоединиться', url='https://t.me/botonarioum')]]
+    bot.send_message(update.message.chat.id, message)
+    bot.send_message(update.message.chat.id, message, InlineKeyboardMarkup(button))
 
 
 class BotonarioumFilter(BaseFilter):
@@ -44,7 +45,6 @@ class BotonarioumFilter(BaseFilter):
 @save_chanel_decorator
 def search_audio(bot, update):
     messages.set_language(bot.area.language)
-    _build_botonarioum_keyboard(bot, update)
     try:
         bot.send_message(update.message.chat.id, messages.get_massage('searching'))
         songs_data = parse_result(normalize_song_name(update.message.text))
@@ -65,7 +65,12 @@ def search_audio(bot, update):
 def send_info(bot, update):
     messages.set_language(bot.area.language)
     message = messages.get_massage('intro')
-    bot.send_message(update.message.chat.id, message)
+    area = Area.get(Area.token == bot.area.token)
+    if (area.language in ('RU')):
+        buttons = [[BOTONARIOUM]]
+        keyboard = ReplyKeyboardMarkup(buttons, resize_keyboard=True)
+        return bot.send_message(update.message.chat.id, message, reply_markup=keyboard)
+    return bot.send_message(update.message.chat.id, message)
 
 
 @save_chanel_decorator

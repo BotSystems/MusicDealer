@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
-from telegram import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup
+from telegram import InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import MessageHandler, CommandHandler, CallbackQueryHandler, Filters, BaseFilter
 
 from core.adv.controller import send_adv
-from core.area.models import Area
 from core.handlers.decorators import save_chanel_decorator, save_download_decorator
-from core.handlers.finder import parse_result, normalize_song_name, normalize_download_url
+from core.handlers.finder import parse_result, normalize_download_url
 from core.handlers.messages import Messages
 
 messages = Messages()
@@ -49,7 +48,7 @@ def search_audio(bot, update):
     messages.set_language(bot.area.language)
     try:
         bot.send_message(update.message.chat.id, messages.get_massage('searching'))
-        songs_data = parse_result(normalize_song_name(update.message.text))
+        songs_data = parse_result(update.message.text)
         songs_data = list(filter(None, songs_data))
 
         buttons = build_download_keyboard(songs_data)

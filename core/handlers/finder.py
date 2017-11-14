@@ -25,9 +25,7 @@ def parse_result(normalized_song_name):
 def normalize_download_url(data_url):
     url = DOWNLOAD_URL.format(data_url)
     result = requests.get(url).json()
-    if 'data' in result:
-        return result['data']['download_url']
-    return None
+    return result['data']['download_url']
 
 
 if __name__ == '__main__':

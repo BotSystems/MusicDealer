@@ -23,9 +23,14 @@ def parse_result(normalized_song_name):
 
 
 def normalize_download_url(data_url):
-    url = DOWNLOAD_URL.format(data_url)
+    url = urljoin('http://zaycev.net', data_url)
     result = requests.get(url).json()
-    return result['data']['download_url']
+    url = dict(result).get('url')
+    if url:
+        url = str.split(url, '?')
+    if url:
+        return url[0]
+    return None
 
 
 if __name__ == '__main__':

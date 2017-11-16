@@ -75,7 +75,7 @@ def send_info(bot, update):
 
 
 @save_chanel_decorator
-@save_download_decorator
+# @save_download_decorator
 def download_song(bot, update, *args, **kwargs):
     messages.set_language(bot.area.language)
     query = update.callback_query

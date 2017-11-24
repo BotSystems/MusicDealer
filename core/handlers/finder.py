@@ -10,7 +10,7 @@ DOWNLOAD_URL = os.getenv('DOWNLOAD_TRACK_TEMPLATE')
 
 def parse_result(normalized_song_name):
     search_page_url = SEARCH_URL.format(normalized_song_name)
-    search_page = requests.get(search_page_url)
+    search_page = requests.get(search_page_url, params={'page[limit]': 10, 'page[offset]': 0})
 
     return search_page.json()['data']
 

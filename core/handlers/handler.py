@@ -44,7 +44,7 @@ class BotonarioumFilter(BaseFilter):
 
 
 def attach_pagger_buttons(buttons):
-    pagination_buttons = [InlineKeyboardButton('<<<', callback_data='-1'), InlineKeyboardButton('>>>', callback_data='+1')]
+    pagination_buttons = [[InlineKeyboardButton('<<<', callback_data='-1'), InlineKeyboardButton('>>>', callback_data='+1')]]
     return pagination_buttons + buttons + pagination_buttons
 
 

@@ -81,7 +81,7 @@ def download_song(bot, update, *args, **kwargs):
     query = update.callback_query
     download_url = normalize_download_url(query.data)
     bot.send_audio(query.message.chat_id, download_url)
-    send_adv(bot, query.message.chat_id, messages)
+    # send_adv(bot, query.message.chat_id, messages)
 
 
 def init_handlers(dispatcher):

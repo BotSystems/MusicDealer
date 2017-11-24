@@ -22,13 +22,9 @@ BOTONARIOUM = '::Ботонариум::'
 
 def build_download_keyboard(songs_data):
     download_buttons = []
-    prev_button = InlineKeyboardButton('<<', callback_data='-1')
-    next_button = InlineKeyboardButton('>>', callback_data='+1')
-    download_buttons.append([prev_button, next_button])
     for title, url in songs_data:
         inline_download_button = InlineKeyboardButton(title, callback_data=url)
         download_buttons.append([inline_download_button])
-    download_buttons.append([prev_button, next_button])
     return download_buttons
 
 
@@ -47,6 +43,11 @@ class BotonarioumFilter(BaseFilter):
         return bool(message.text == BOTONARIOUM)
 
 
+def attach_pagger_buttons(buttons):
+    pagination_buttons = [InlineKeyboardButton('<<<', callback_data='-1'), InlineKeyboardButton('>>>', callback_data='+1')]
+    return pagination_buttons + buttons + pagination_buttons
+
+
 @save_chanel_decorator
 def search_audio(bot, update):
     messages.set_language(bot.area.language)
@@ -55,10 +56,11 @@ def search_audio(bot, update):
         songs_data = parse_result(update.message.text)
         songs_data = list(filter(None, songs_data))
 
-        buttons = build_download_keyboard(songs_data)
-        keyboard = InlineKeyboardMarkup(buttons)
+        songs_buttons = build_download_keyboard(songs_data)
 
-        if buttons:
+        if songs_buttons:
+            buttons = attach_pagger_buttons(songs_data)
+            keyboard = InlineKeyboardMarkup(buttons)
             bot.send_message(update.message.chat.id, messages.get_massage('i_find'), reply_markup=keyboard)
         else:
             bot.send_message(update.message.chat.id, messages.get_massage('i_try'))

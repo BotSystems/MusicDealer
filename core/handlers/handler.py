@@ -43,7 +43,7 @@ class BotonarioumFilter(BaseFilter):
         return bool(message.text == BOTONARIOUM)
 
 
-def attach_pagger_buttons(buttons):
+def attach_pager_buttons(buttons):
     pagination_buttons = [[InlineKeyboardButton('<<<', callback_data='-1'), InlineKeyboardButton('>>>', callback_data='+1')]]
     return pagination_buttons + buttons + pagination_buttons
 
@@ -59,8 +59,7 @@ def search_audio(bot, update):
         songs_buttons = build_download_keyboard(songs_data)
 
         if songs_buttons:
-            buttons = attach_pagger_buttons(songs_data)
-            print(buttons)
+            buttons = attach_pager_buttons(songs_buttons)
             keyboard = InlineKeyboardMarkup(buttons)
             bot.send_message(update.message.chat.id, messages.get_massage('i_find'), reply_markup=keyboard)
         else:

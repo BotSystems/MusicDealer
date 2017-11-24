@@ -60,6 +60,7 @@ def search_audio(bot, update):
 
         if songs_buttons:
             buttons = attach_pagger_buttons(songs_data)
+            print(buttons)
             keyboard = InlineKeyboardMarkup(buttons)
             bot.send_message(update.message.chat.id, messages.get_massage('i_find'), reply_markup=keyboard)
         else:

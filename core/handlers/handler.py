@@ -22,9 +22,13 @@ BOTONARIOUM = '::Ботонариум::'
 
 def build_download_keyboard(songs_data):
     download_buttons = []
+    prev_button = InlineKeyboardButton('<<', callback_data='-1')
+    next_button = InlineKeyboardButton('>>', callback_data='+1')
+    download_buttons.append([prev_button, next_button])
     for title, url in songs_data:
         inline_download_button = InlineKeyboardButton(title, callback_data=url)
         download_buttons.append([inline_download_button])
+    download_buttons.append([prev_button, next_button])
     return download_buttons
 
 

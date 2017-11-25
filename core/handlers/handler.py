@@ -66,7 +66,10 @@ def searching(bot, update, limit, offset):
     messages.set_language(bot.area.language)
 
     try:
+        print('1')
+        # print('1')
         bot.send_message(update.message.chat.id, messages.get_massage('searching'))
+        print('2')
 
         songs_data, songs_count = parse_result(update.message.text, limit, offset)
         songs_data = list(filter(None, songs_data))

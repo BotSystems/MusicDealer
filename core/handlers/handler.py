@@ -48,10 +48,10 @@ def attach_pager_buttons(buttons, pager):
     pagination_buttons = [[]]
 
     if pager.has_next:
-        pagination_buttons[0].append(InlineKeyboardButton('>>>', callback_data='+1'))
+        pagination_buttons[0].append(InlineKeyboardButton('>>>', callback_data='pager.next'))
 
     if pager.has_prev:
-        pagination_buttons[0].append(InlineKeyboardButton('<<<', callback_data='-1'))
+        pagination_buttons[0].append(InlineKeyboardButton('<<<', callback_data='pager.prev'))
 
     return pagination_buttons + buttons + pagination_buttons
 
@@ -83,6 +83,11 @@ def search_audio(bot, update):
     except Exception as ex:
         print(ex)
 
+def next_page(bot, update):
+    print('next page')
+
+def prev_page(bot, update):
+    print('next page')
 
 @save_chanel_decorator
 def send_info(bot, update):
@@ -111,6 +116,8 @@ def init_handlers(dispatcher):
     dispatcher.add_handler(MessageHandler(BotonarioumFilter(), send_botonarioum_info))
     dispatcher.add_handler(MessageHandler(Filters.text, search_audio))
     dispatcher.add_handler(CallbackQueryHandler(download_song, pass_update_queue=True))
+    dispatcher.add_handler(CallbackQueryHandler(prev_page, True, False, 'pager.prev'))
+    dispatcher.add_handler(CallbackQueryHandler(next_page, True, False, 'pager.next'))
     return dispatcher
 
 

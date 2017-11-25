@@ -115,9 +115,9 @@ def init_handlers(dispatcher):
     dispatcher.add_handler(CommandHandler('start', send_info))
     dispatcher.add_handler(MessageHandler(BotonarioumFilter(), send_botonarioum_info))
     dispatcher.add_handler(MessageHandler(Filters.text, search_audio))
-    dispatcher.add_handler(CallbackQueryHandler(download_song, pass_update_queue=True))
     dispatcher.add_handler(CallbackQueryHandler(prev_page, True, False, 'pager.prev'))
     dispatcher.add_handler(CallbackQueryHandler(next_page, True, False, 'pager.next'))
+    dispatcher.add_handler(CallbackQueryHandler(download_song, pass_update_queue=True))
     return dispatcher
 
 

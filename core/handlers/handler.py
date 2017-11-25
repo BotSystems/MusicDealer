@@ -59,7 +59,7 @@ def attach_pager_buttons(buttons, pager):
 
 @save_chanel_decorator
 def search_audio(bot, update):
-    limit, offset = 10, 10
+    limit, offset = 10, 0
     searching(bot, update, limit, offset)
 
 def searching(bot, update, limit, offset):

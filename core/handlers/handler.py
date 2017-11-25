@@ -110,10 +110,10 @@ def searching(bot, update, limit, offset):
 
 
 def next_page(bot, update, *args, **kwargs):
-    query = update.callback_query.data
+    query = update.callback_query
     print(query)
-    limit = query.split('.')[3]
-    offset = query.split('.')[5]
+    limit = query.data.split('.')[3]
+    offset = query.data.split('.')[5]
     print(limit)
     print(offset)
     print('next page')

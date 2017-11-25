@@ -86,6 +86,7 @@ def search_audio(bot, update):
 
 def next_page(bot, update, *args, **kwargs):
     query = update.callback_query
+    print(query)
     limit = query.split('.')[3]
     offset = query.split('.')[5]
     print(limit)

@@ -12,7 +12,7 @@ def parse_result(normalized_song_name, limit, offset):
     search_page_url = SEARCH_URL.format(normalized_song_name)
     search_page = requests.get(search_page_url, params={'page[limit]': limit, 'page[offset]': offset})
 
-    return search_page.json()['data']
+    return [search_page.json()['data'], search_page.json()['meta']['count']]
 
 
 def normalize_download_url(data_url):

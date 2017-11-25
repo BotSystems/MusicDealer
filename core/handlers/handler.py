@@ -65,10 +65,10 @@ def search_audio(bot, update):
     try:
         bot.send_message(update.message.chat.id, messages.get_massage('searching'))
 
-        songs_data = parse_result(update.message.text, limit, offset)
+        songs_data, songs_count = parse_result(update.message.text, limit, offset)
         songs_data = list(filter(None, songs_data))
 
-        pager = Page(len(songs_data), limit, offset)
+        pager = Page(songs_count, limit, offset)
 
         print(len(songs_data))
 

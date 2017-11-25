@@ -83,10 +83,10 @@ def search_audio(bot, update):
     except Exception as ex:
         print(ex)
 
-def next_page(bot, update):
+def next_page(bot, update, *args, **kwargs):
     print('next page')
 
-def prev_page(bot, update):
+def prev_page(bot, update, *args, **kwargs):
     print('next page')
 
 @save_chanel_decorator

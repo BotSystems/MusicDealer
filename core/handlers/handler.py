@@ -93,6 +93,7 @@ def next_page(bot, update, *args, **kwargs):
     print(limit)
     print(offset)
     print('next page')
+    print(update)
     searching(bot, update, limit, offset)
 
 def prev_page(bot, update, *args, **kwargs):

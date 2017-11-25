@@ -70,6 +70,8 @@ def search_audio(bot, update):
 
         pager = Page(len(songs_data), limit, offset)
 
+        print(len(songs_data))
+
         songs_buttons = build_download_keyboard(songs_data)
 
         if songs_buttons:

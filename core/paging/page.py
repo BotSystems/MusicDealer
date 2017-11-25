@@ -30,6 +30,6 @@ class Page:
 
 
 if __name__ == '__main__':
-    pager = Page(5, 7, 5)
+    pager = Page(20, 10, 0)
     print(pager.has_prev)
     print(pager.has_next)

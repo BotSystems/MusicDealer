@@ -60,7 +60,31 @@ def attach_pager_buttons(buttons, pager):
 @save_chanel_decorator
 def search_audio(bot, update):
     limit, offset = 10, 0
+    searching(bot, update, limit, offset)
+    # messages.set_language(bot.area.language)
+    #
+    # try:
+    #     bot.send_message(update.message.chat.id, messages.get_massage('searching'))
+    #
+    #     songs_data, songs_count = parse_result(update.message.text, limit, offset)
+    #     songs_data = list(filter(None, songs_data))
+    #
+    #     pager = Page(songs_count, limit, offset)
+    #
+    #     print(len(songs_data))
+    #
+    #     songs_buttons = build_download_keyboard(songs_data)
+    #
+    #     if songs_buttons:
+    #         buttons = attach_pager_buttons(songs_buttons, pager)
+    #         keyboard = InlineKeyboardMarkup(buttons)
+    #         bot.send_message(update.message.chat.id, messages.get_massage('i_find'), reply_markup=keyboard)
+    #     else:
+    #         bot.send_message(update.message.chat.id, messages.get_massage('i_try'))
+    # except Exception as ex:
+    #     print(ex)
 
+def searching(bot, update, limit, offset):
     messages.set_language(bot.area.language)
 
     try:
@@ -84,6 +108,7 @@ def search_audio(bot, update):
     except Exception as ex:
         print(ex)
 
+
 def next_page(bot, update, *args, **kwargs):
     query = update.callback_query.data
     print(query)
@@ -92,6 +117,7 @@ def next_page(bot, update, *args, **kwargs):
     print(limit)
     print(offset)
     print('next page')
+    searching(bot, update, limit, offset)
 
 def prev_page(bot, update, *args, **kwargs):
     print('next page')

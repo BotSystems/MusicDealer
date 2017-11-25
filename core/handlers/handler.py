@@ -6,6 +6,7 @@ from core.adv.controller import send_adv
 from core.handlers.decorators import save_chanel_decorator, save_download_decorator
 from core.handlers.finder import parse_result, normalize_download_url
 from core.handlers.messages import Messages
+from core.paging.page import Page
 
 messages = Messages()
 
@@ -43,23 +44,36 @@ class BotonarioumFilter(BaseFilter):
         return bool(message.text == BOTONARIOUM)
 
 
-def attach_pager_buttons(buttons):
-    pagination_buttons = [[InlineKeyboardButton('<<<', callback_data='-1'), InlineKeyboardButton('>>>', callback_data='+1')]]
+def attach_pager_buttons(buttons, pager):
+    pagination_buttons = [[]]
+
+    if pager.has_next:
+        pagination_buttons[0].append(InlineKeyboardButton('>>>', callback_data='+1'))
+
+    if pager.has_prev:
+        pagination_buttons[0].append(InlineKeyboardButton('<<<', callback_data='-1'))
+
     return pagination_buttons + buttons + pagination_buttons
 
 
 @save_chanel_decorator
 def search_audio(bot, update):
+    limit, offset = 10, 0
+
     messages.set_language(bot.area.language)
+
     try:
         bot.send_message(update.message.chat.id, messages.get_massage('searching'))
-        songs_data = parse_result(update.message.text)
+
+        songs_data = parse_result(update.message.text, limit, offset)
         songs_data = list(filter(None, songs_data))
+
+        pager = Page(len(songs_data), limit, offset)
 
         songs_buttons = build_download_keyboard(songs_data)
 
         if songs_buttons:
-            buttons = attach_pager_buttons(songs_buttons)
+            buttons = attach_pager_buttons(songs_buttons, pager)
             keyboard = InlineKeyboardMarkup(buttons)
             bot.send_message(update.message.chat.id, messages.get_massage('i_find'), reply_markup=keyboard)
         else:
@@ -96,3 +110,7 @@ def init_handlers(dispatcher):
     dispatcher.add_handler(MessageHandler(Filters.text, search_audio))
     dispatcher.add_handler(CallbackQueryHandler(download_song, pass_update_queue=True))
     return dispatcher
+
+
+if __name__ == '__main__':
+    pass

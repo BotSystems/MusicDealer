@@ -45,13 +45,14 @@ class BotonarioumFilter(BaseFilter):
 
 
 def attach_pager_buttons(buttons, pager):
+    limit, offset = pager.limit, pager.offset
     pagination_buttons = [[]]
 
     if pager.has_next:
-        pagination_buttons[0].append(InlineKeyboardButton('>>>', callback_data='pager.next'))
+        pagination_buttons[0].append(InlineKeyboardButton('>>>', callback_data='pager.next.limit.{}.offset.{}'.format(limit, offset)))
 
     if pager.has_prev:
-        pagination_buttons[0].append(InlineKeyboardButton('<<<', callback_data='pager.prev'))
+        pagination_buttons[0].append(InlineKeyboardButton('<<<', callback_data='pager.prev.limit.{}.offset.{}'.format(limit, offset)))
 
     return pagination_buttons + buttons + pagination_buttons
 
@@ -84,6 +85,11 @@ def search_audio(bot, update):
         print(ex)
 
 def next_page(bot, update, *args, **kwargs):
+    query = update.callback_query
+    limit = query.split('.')[3]
+    offset = query.split('.')[5]
+    print(limit)
+    print(offset)
     print('next page')
 
 def prev_page(bot, update, *args, **kwargs):

@@ -59,11 +59,13 @@ def attach_pager_buttons(buttons, pager, song_name):
 
 @save_chanel_decorator
 def search_audio(bot, update):
+    messages.set_language(bot.area.language)
+    bot.send_message(update.message.chat.id, messages.get_massage('searching'))
     limit, offset = 10, 0
     searching(bot, update.message.chat.id, update.message.text, limit, offset)
 
 def searching(bot, chat_id, text, limit, offset):
-    messages.set_language(bot.area.language)
+
 
     print('limit: {}'.format(limit))
     print('offset: {}'.format(offset))
@@ -72,7 +74,7 @@ def searching(bot, chat_id, text, limit, offset):
         print('1')
         # print('1')
         # bot.send_message(update.message.chat.id, messages.get_massage('searching'))
-        bot.send_message(chat_id, messages.get_massage('searching'))
+
         print('2')
 
         songs_data, songs_count = parse_result(text, limit, offset)

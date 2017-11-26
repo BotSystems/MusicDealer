@@ -65,6 +65,9 @@ def search_audio(bot, update):
 def searching(bot, chat_id, text, limit, offset):
     messages.set_language(bot.area.language)
 
+    print('limit: ' + limit)
+    print('offset: ' + offset)
+
     try:
         print('1')
         # print('1')
@@ -92,10 +95,8 @@ def searching(bot, chat_id, text, limit, offset):
 def next_page(bot, update, *args, **kwargs):
     query = update.callback_query
     print(query)
-    limit = query.data.split('.')[3]
-    offset = query.data.split('.')[5]
-    print(limit)
-    print(offset)
+    limit = int(query.data.split('.')[3])
+    offset = int(query.data.split('.')[5])
     print('next page')
     print(update)
     searching(bot, query.message.chat_id, 'ротару', limit, offset + limit)

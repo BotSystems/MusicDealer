@@ -60,18 +60,19 @@ def attach_pager_buttons(buttons, pager):
 @save_chanel_decorator
 def search_audio(bot, update):
     limit, offset = 10, 0
-    searching(bot, update, limit, offset)
+    searching(bot, update.message.chat.id, update.message.text, limit, offset)
 
-def searching(bot, update, limit, offset):
+def searching(bot, chat_id, text, limit, offset):
     messages.set_language(bot.area.language)
 
     try:
         print('1')
         # print('1')
-        bot.send_message(update.message.chat.id, messages.get_massage('searching'))
+        # bot.send_message(update.message.chat.id, messages.get_massage('searching'))
+        bot.send_message(chat_id, messages.get_massage('searching'))
         print('2')
 
-        songs_data, songs_count = parse_result(update.message.text, limit, offset)
+        songs_data, songs_count = parse_result(text, limit, offset)
         songs_data = list(filter(None, songs_data))
 
         pager = Page(songs_count, limit, offset)
@@ -81,9 +82,9 @@ def searching(bot, update, limit, offset):
         if songs_buttons:
             buttons = attach_pager_buttons(songs_buttons, pager)
             keyboard = InlineKeyboardMarkup(buttons)
-            bot.send_message(update.message.chat.id, messages.get_massage('i_find'), reply_markup=keyboard)
+            bot.send_message(chat_id, messages.get_massage('i_find'), reply_markup=keyboard)
         else:
-            bot.send_message(update.message.chat.id, messages.get_massage('i_try'))
+            bot.send_message(chat_id, messages.get_massage('i_try'))
     except Exception as ex:
         print(ex)
 

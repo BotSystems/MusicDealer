@@ -44,15 +44,15 @@ class BotonarioumFilter(BaseFilter):
         return bool(message.text == BOTONARIOUM)
 
 
-def attach_pager_buttons(buttons, pager):
+def attach_pager_buttons(buttons, pager, song_name):
     limit, offset = pager.limit, pager.offset
     pagination_buttons = [[]]
 
     if pager.has_next:
-        pagination_buttons[0].append(InlineKeyboardButton('>>>', callback_data='pager.next.limit.{}.offset.{}'.format(limit, offset)))
+        pagination_buttons[0].append(InlineKeyboardButton('>>>', callback_data='pager.next.limit.{}.offset.{}.track_name.{}'.format(limit, offset, song_name)))
 
     if pager.has_prev:
-        pagination_buttons[0].append(InlineKeyboardButton('<<<', callback_data='pager.prev.limit.{}.offset.{}'.format(limit, offset)))
+        pagination_buttons[0].append(InlineKeyboardButton('<<<', callback_data='pager.prev.limit.{}.offset.{}.track_name.{}'.format(limit, offset, song_name)))
 
     return pagination_buttons + buttons + pagination_buttons
 
@@ -83,7 +83,7 @@ def searching(bot, chat_id, text, limit, offset):
         songs_buttons = build_download_keyboard(songs_data)
 
         if songs_buttons:
-            buttons = attach_pager_buttons(songs_buttons, pager)
+            buttons = attach_pager_buttons(songs_buttons, pager, text)
             keyboard = InlineKeyboardMarkup(buttons)
             bot.send_message(chat_id, messages.get_massage('i_find'), reply_markup=keyboard)
         else:
@@ -97,12 +97,20 @@ def next_page(bot, update, *args, **kwargs):
     print(query)
     limit = int(query.data.split('.')[3])
     offset = int(query.data.split('.')[5])
+    song_name = query.data.split('.')[7]
     print('next page')
     print(update)
-    searching(bot, query.message.chat_id, 'ротару', limit, offset + limit)
+    searching(bot, query.message.chat_id, song_name, limit, offset + limit)
 
 def prev_page(bot, update, *args, **kwargs):
-    print('next page')
+    query = update.callback_query
+    print(query)
+    limit = int(query.data.split('.')[3])
+    offset = int(query.data.split('.')[5])
+    song_name = query.data.split('.')[7]
+    print('prev page')
+    print(update)
+    searching(bot, query.message.chat_id, song_name, limit, offset - limit)
 
 @save_chanel_decorator
 def send_info(bot, update):

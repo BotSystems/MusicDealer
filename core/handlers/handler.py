@@ -62,21 +62,14 @@ def search_audio(bot, update):
     messages.set_language(bot.area.language)
     bot.send_message(update.message.chat.id, messages.get_massage('searching'))
     limit, offset = 10, 0
-    searching(bot, update.message.chat.id, update.message.text, limit, offset)
+    keyboard = make_markup_keyboard(bot, update.message.chat.id, update.message.text, limit, offset)
+    if keyboard:
+        bot.send_message(update.message.chat.id, messages.get_massage('i_find'), reply_markup=keyboard)
+    else:
+        bot.send_message(update.message.chat.id, messages.get_massage('i_try'))
 
-def searching(bot, chat_id, text, limit, offset):
-
-
-    print('limit: {}'.format(limit))
-    print('offset: {}'.format(offset))
-
+def make_markup_keyboard(bot, chat_id, text, limit, offset):
     try:
-        print('1')
-        # print('1')
-        # bot.send_message(update.message.chat.id, messages.get_massage('searching'))
-
-        print('2')
-
         songs_data, songs_count = parse_result(text, limit, offset)
         songs_data = list(filter(None, songs_data))
 
@@ -87,11 +80,43 @@ def searching(bot, chat_id, text, limit, offset):
         if songs_buttons:
             buttons = attach_pager_buttons(songs_buttons, pager, text)
             keyboard = InlineKeyboardMarkup(buttons)
-            bot.send_message(chat_id, messages.get_massage('i_find'), reply_markup=keyboard)
-        else:
-            bot.send_message(chat_id, messages.get_massage('i_try'))
+            return keyboard
+            # bot.send_message(chat_id, messages.get_massage('i_find'), reply_markup=keyboard)
+        # else:
+
+            # bot.send_message(chat_id, messages.get_massage('i_try'))
     except Exception as ex:
         print(ex)
+    return None
+
+# def searching(bot, chat_id, text, limit, offset):
+#
+#
+#     print('limit: {}'.format(limit))
+#     print('offset: {}'.format(offset))
+#
+#     try:
+#         print('1')
+#         # print('1')
+#         # bot.send_message(update.message.chat.id, messages.get_massage('searching'))
+#
+#         print('2')
+#
+#         songs_data, songs_count = parse_result(text, limit, offset)
+#         songs_data = list(filter(None, songs_data))
+#
+#         pager = Page(songs_count, limit, offset)
+#
+#         songs_buttons = build_download_keyboard(songs_data)
+#
+#         if songs_buttons:
+#             buttons = attach_pager_buttons(songs_buttons, pager, text)
+#             keyboard = InlineKeyboardMarkup(buttons)
+#             bot.send_message(chat_id, messages.get_massage('i_find'), reply_markup=keyboard)
+#         else:
+#             bot.send_message(chat_id, messages.get_massage('i_try'))
+#     except Exception as ex:
+#         print(ex)
 
 
 def next_page(bot, update, *args, **kwargs):
@@ -115,7 +140,7 @@ def prev_page(bot, update, *args, **kwargs):
     song_name = query.data.split('.')[7]
     print('prev page')
     print(update)
-    searching(bot, query.message.chat_id, song_name, limit, offset - limit)
+    make_markup_keyboard(bot, query.message.chat_id, song_name, limit, offset - limit)
 
 @save_chanel_decorator
 def send_info(bot, update):

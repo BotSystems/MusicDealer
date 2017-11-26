@@ -159,7 +159,7 @@ def prev_page(bot, update, *args, **kwargs):
 
 
 def edit_markup(bot, chat_id, message_id, song_name, limit, offset):
-    keyboard = make_markup_keyboard(bot, chat_id, song_name, limit, offset - limit)
+    keyboard = make_markup_keyboard(bot, chat_id, song_name, limit, offset)
     bot.edit_message_reply_markup(chat_id=chat_id,
                                   message_id=message_id,
                                   inline_message_id=None,

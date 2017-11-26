@@ -98,7 +98,7 @@ def next_page(bot, update, *args, **kwargs):
     print(offset)
     print('next page')
     print(update)
-    searching(bot, update, limit, offset)
+    searching(bot, query.message.chat_id, 'ротару', limit, offset + limit)
 
 def prev_page(bot, update, *args, **kwargs):
     print('next page')

@@ -61,7 +61,7 @@ def attach_pager_buttons(buttons, pager, song_name):
 def search_audio(bot, update):
     messages.set_language(bot.area.language)
     bot.send_message(update.message.chat.id, messages.get_massage('searching'))
-    limit, offset = 10, 0
+    limit, offset = 5, 0
     keyboard = make_markup_keyboard(bot, update.message.chat.id, update.message.text, limit, offset)
     if keyboard:
         bot.send_message(update.message.chat.id, messages.get_massage('i_find'), reply_markup=keyboard)

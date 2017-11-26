@@ -48,11 +48,11 @@ def attach_pager_buttons(buttons, pager, song_name):
     limit, offset = pager.limit, pager.offset
     pagination_buttons = [[]]
 
-    if pager.has_next:
-        pagination_buttons[0].append(InlineKeyboardButton('>>>', callback_data='pager.next.limit.{}.offset.{}.track_name.{}'.format(limit, offset, song_name)))
-
     if pager.has_prev:
         pagination_buttons[0].append(InlineKeyboardButton('<<<', callback_data='pager.prev.limit.{}.offset.{}.track_name.{}'.format(limit, offset, song_name)))
+
+    if pager.has_next:
+        pagination_buttons[0].append(InlineKeyboardButton('>>>', callback_data='pager.next.limit.{}.offset.{}.track_name.{}'.format(limit, offset, song_name)))
 
     return pagination_buttons + buttons + pagination_buttons
 

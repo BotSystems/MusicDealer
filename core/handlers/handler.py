@@ -65,8 +65,8 @@ def search_audio(bot, update):
 def searching(bot, chat_id, text, limit, offset):
     messages.set_language(bot.area.language)
 
-    print('limit: ' + limit)
-    print('offset: ' + offset)
+    print('limit: {}'.format(limit))
+    print('offset: {}'.format(offset))
 
     try:
         print('1')

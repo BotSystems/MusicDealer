@@ -131,8 +131,8 @@ def next_page(bot, update, *args, **kwargs):
 
     keyboard = make_markup_keyboard(bot, update.callback_query.message.chat_id, song_name, limit, offset - limit)
     print(keyboard)
-    # bot.edit_message_reply_markup(update.callback_query.message.chat_id, update.callback_query.message.message_id, None, keyboard)
-    bot.edit_message_text('aaaaaaaaaaaaaa', update.callback_query.message.chat_id, update.callback_query.message.message_id, None, None, None, keyboard)
+    bot.edit_message_reply_markup(update.callback_query.message.chat_id, update.callback_query.message.message_id, None, keyboard)
+    # bot.edit_message_text('aaaaaaaaaaaaaa', update.callback_query.message.chat_id, update.callback_query.message.message_id, None, None, None, keyboard)
     # query = update.callback_query
     # print(query)
     # limit = int(query.data.split('.')[3])

@@ -126,12 +126,12 @@ def next_page(bot, update, *args, **kwargs):
     offset = int(query.data.split('.')[5])
     song_name = query.data.split('.')[7]
 
-    print(update.callback_query.message.chat_id)
-    print(update.callback_query.message.message_id)
+    edit_markup(bot, update.callback_query.message.chat_id, update.callback_query.message.message_id, song_name, limit, offset + limit)
 
-    keyboard = make_markup_keyboard(bot, update.callback_query.message.chat_id, song_name, limit, offset - limit)
-    print(keyboard)
-    bot.edit_message_reply_markup(chat_id=update.callback_query.message.chat_id, message_id=update.callback_query.message.message_id, inline_message_id=None, reply_markup=keyboard)
+    # keyboard = make_markup_keyboard(bot, update.callback_query.message.chat_id, song_name, limit, offset - limit)
+    # bot.edit_message_reply_markup(chat_id=update.callback_query.message.chat_id,
+    #                               message_id=update.callback_query.message.message_id, inline_message_id=None,
+    #                               reply_markup=keyboard)
     # bot.edit_message_text('aaaaaaaaaaaaaa', update.callback_query.message.chat_id, update.callback_query.message.message_id, None, None, None, keyboard)
     # query = update.callback_query
     # print(query)
@@ -144,13 +144,27 @@ def next_page(bot, update, *args, **kwargs):
 
 def prev_page(bot, update, *args, **kwargs):
     query = update.callback_query
-    print(query)
+
     limit = int(query.data.split('.')[3])
     offset = int(query.data.split('.')[5])
     song_name = query.data.split('.')[7]
-    print('prev page')
-    print(update)
-    make_markup_keyboard(bot, query.message.chat_id, song_name, limit, offset - limit)
+
+    edit_markup(bot, update.callback_query.message.chat_id, update.callback_query.message.message_id, song_name, limit,
+                offset - limit)
+
+    # keyboard = make_markup_keyboard(bot, query.message.chat_id, song_name, limit, offset - limit)
+    # bot.edit_message_reply_markup(chat_id=update.callback_query.message.chat_id,
+    #                               message_id=update.callback_query.message.message_id, inline_message_id=None,
+    #                               reply_markup=keyboard)
+
+
+def edit_markup(bot, chat_id, message_id, song_name, limit, offset):
+    keyboard = make_markup_keyboard(bot, chat_id, song_name, limit, offset - limit)
+    bot.edit_message_reply_markup(chat_id=chat_id,
+                                  message_id=message_id,
+                                  inline_message_id=None,
+                                  reply_markup=keyboard)
+
 
 @save_chanel_decorator
 def send_info(bot, update):

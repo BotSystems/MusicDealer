@@ -97,7 +97,7 @@ def searching(bot, chat_id, text, limit, offset):
 def next_page(bot, update, *args, **kwargs):
     print(update.callback_query.message.chat_id)
     print(update.callback_query.message.message_id)
-    bot.edit_message_text('aaaaaaaaaaaaaa', update.callback_query.message.chat_id, update.callback_query.message_id)
+    bot.edit_message_text('aaaaaaaaaaaaaa', update.callback_query.message.chat_id, update.callback_query.message.message_id)
     # query = update.callback_query
     # print(query)
     # limit = int(query.data.split('.')[3])

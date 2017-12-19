@@ -10,7 +10,7 @@ from core.paging.page import Page
 
 messages = Messages()
 
-BOTONARIOUM = '::Ботонариум::'
+# BOTONARIOUM = '::Ботонариум::'
 
 
 # def _build_botonarioum_keyboard(bot, update):
@@ -39,9 +39,9 @@ def send_botonarioum_info(bot, update):
     return bot.send_message(update.message.chat.id, message, reply_markup=InlineKeyboardMarkup(button))
 
 
-class BotonarioumFilter(BaseFilter):
-    def filter(self, message):
-        return bool(message.text == BOTONARIOUM)
+# class BotonarioumFilter(BaseFilter):
+#     def filter(self, message):
+#         return bool(message.text == BOTONARIOUM)
 
 
 def attach_pager_buttons(buttons, pager, song_name):
@@ -192,7 +192,7 @@ def download_song(bot, update, *args, **kwargs):
 
 def init_handlers(dispatcher):
     dispatcher.add_handler(CommandHandler('start', send_info))
-    dispatcher.add_handler(MessageHandler(BotonarioumFilter(), send_botonarioum_info))
+    # dispatcher.add_handler(MessageHandler(BotonarioumFilter(), send_botonarioum_info))
     dispatcher.add_handler(MessageHandler(Filters.text, search_audio))
     dispatcher.add_handler(CallbackQueryHandler(prev_page, True, False, 'pager.prev.*'))
     dispatcher.add_handler(CallbackQueryHandler(next_page, True, False, 'pager.next.*'))

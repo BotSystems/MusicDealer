@@ -15,9 +15,9 @@ def parse_result(normalized_song_name, limit, offset):
     return [search_page.json()['data'], search_page.json()['meta']['total']]
 
 
-def normalize_download_url(data_url):
+def normalize_download_url(data_url, provider):
     url = 'https://track-finder.herokuapp.com/download?{}'
-    params = {'url': data_url}
+    params = {'url': data_url, 'provider': provider}
 
     result = requests.get(url.format(urlencode(params))).json()
     if 'data' in result:
@@ -25,22 +25,22 @@ def normalize_download_url(data_url):
     return None
 
 
-def normalize_download_url_old(data_url):
-    url = urljoin('http://zaycev.net', data_url)
-    result = requests.get(url).json()
-    url = dict(result).get('url')
-    if url:
-        url = str.split(url, '?')
-    if url:
-        return url[0]
-    return None
+# def normalize_download_url_old(data_url):
+#     url = urljoin('http://zaycev.net', data_url)
+#     result = requests.get(url).json()
+#     url = dict(result).get('url')
+#     if url:
+#         url = str.split(url, '?')
+#     if url:
+#         return url[0]
+#     return None
 
 
 if __name__ == '__main__':
     # data_urls = parse_result('The Hardkiss')
     # print(data_urls)
 
-    download_url = normalize_download_url("/musicset/play/936394cc1b6ac6e01ea123f96033bd8a/3946953.json")
+    download_url = normalize_download_url("/musicset/play/936394cc1b6ac6e01ea123f96033bd8a/3946953.json", 'zaycev_net')
     print(download_url)
 
     # download_url1 = normalize_download_url1("/musicset/play/936394cc1b6ac6e01ea123f96033bd8a/3946953.json")

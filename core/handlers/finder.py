@@ -1,6 +1,6 @@
 # -*-coding: utf-8;-*-
 import os
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlencode, urlsplit
 
 import requests
 
@@ -16,6 +16,16 @@ def parse_result(normalized_song_name, limit, offset):
 
 
 def normalize_download_url(data_url):
+    url = 'https://track-finder.herokuapp.com/download?{}'
+    params = {'url': data_url}
+
+    result = requests.get(url.format(urlencode(params))).json()
+    if 'data' in result:
+        return result['data']['download_url']
+    return None
+
+
+def normalize_download_url_old(data_url):
     url = urljoin('http://zaycev.net', data_url)
     result = requests.get(url).json()
     url = dict(result).get('url')
@@ -27,8 +37,11 @@ def normalize_download_url(data_url):
 
 
 if __name__ == '__main__':
-    data_urls = parse_result('The Hardkiss')
-    print(data_urls)
+    # data_urls = parse_result('The Hardkiss')
+    # print(data_urls)
 
     download_url = normalize_download_url("/musicset/play/936394cc1b6ac6e01ea123f96033bd8a/3946953.json")
     print(download_url)
+
+    # download_url1 = normalize_download_url1("/musicset/play/936394cc1b6ac6e01ea123f96033bd8a/3946953.json")
+    # print(download_url1)

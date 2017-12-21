@@ -53,11 +53,14 @@ def search_audio(bot, update):
     bot.send_message(update.message.chat.id, messages.get_massage('searching'))
     limit, offset = 5, 0
     keyboard = make_markup_keyboard(bot, update.message.chat.id, update.message.text, limit, offset)
-    if keyboard:
-        bot.send_message(update.message.chat.id, messages.get_massage('i_find'), reply_markup=keyboard)
-    else:
-        bot.send_message(update.message.chat.id, messages.get_massage('i_try'))
 
+    try:
+        if keyboard:
+            bot.send_message(update.message.chat.id, messages.get_massage('i_find'), reply_markup=keyboard)
+        else:
+            bot.send_message(update.message.chat.id, messages.get_massage('i_try'))
+    except Exception as ex:
+        print(ex)
 
 def make_markup_keyboard(bot, chat_id, text, limit, offset):
     try:

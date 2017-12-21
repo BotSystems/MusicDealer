@@ -22,7 +22,7 @@ def build_download_keyboard(songs_data):
         print('DATA: ', data)
         print('TYPE: ', type(data))
 
-        inline_download_button = InlineKeyboardButton(title, callback_data=url)
+        inline_download_button = InlineKeyboardButton(title, callback_data=data)
         download_buttons.append([inline_download_button])
     return download_buttons
 

@@ -21,6 +21,7 @@ def build_download_keyboard(songs_data):
         data = json.dumps({'provider': 'zaycev_net', 'link': url})
         print('DATA: ', data)
         print('TYPE: ', type(data))
+        print('SIZE: ', len(data.encode('utf-8')))
 
         inline_download_button = InlineKeyboardButton(title, callback_data=data)
         download_buttons.append([inline_download_button])

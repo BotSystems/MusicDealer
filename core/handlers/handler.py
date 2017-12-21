@@ -105,6 +105,12 @@ def send_info(bot, update):
     return bot.send_message(update.message.chat.id, message)
 
 
+def get_track_link(query):
+    return query.data
+
+def get_provider_type(query):
+    return 'zaycev_net'
+
 @save_chanel_decorator
 # @save_download_decorator
 def download_song(bot, update, *args, **kwargs):
@@ -113,8 +119,10 @@ def download_song(bot, update, *args, **kwargs):
 
     print('QUERY: ', query)
 
-    provider = 'zaycev_net'
-    download_url = normalize_download_url(query.data, provider)
+    track_link = get_track_link(query)
+    provider = get_provider_type(query)
+
+    download_url = normalize_download_url(track_link, provider)
     bot.send_audio(query.message.chat_id, download_url)
 
 

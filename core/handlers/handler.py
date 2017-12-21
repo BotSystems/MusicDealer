@@ -19,7 +19,9 @@ def build_download_keyboard(songs_data):
         url = data[1]
 
         data = json.dumps({'provider': 'zaycev_net', 'link': url})
-        inline_download_button = InlineKeyboardButton(title, callback_data=data)
+        print(data)
+
+        inline_download_button = InlineKeyboardButton(title, callback_data=url)
         download_buttons.append([inline_download_button])
     return download_buttons
 
@@ -153,7 +155,7 @@ def init_handlers(dispatcher):
 
 if __name__ == '__main__':
     example_data = '/musicset/play/4ba0a8adb8da96f69b0a8919da9fb0fb/1611152.json'
-    example_data = json.dumps({'provider': 'Deezer', 'link': 'The Hardkiss - Stone'})
+    example_data = json.dumps({'provider': 'Deezer', 'link': '/musicset/play/4ba0a8adb8da96f69b0a8919da9fb0fb/1611152.json'})
 
     # x = {'a': 1, 'b': 2}
     # print(type(json.dumps(x)))

@@ -19,7 +19,8 @@ def build_download_keyboard(songs_data):
         url = data[1]
 
         data = json.dumps({'provider': 'zaycev_net', 'link': url})
-        print(data)
+        print('DATA: ', data)
+        print('TYPE: ', type(data))
 
         inline_download_button = InlineKeyboardButton(title, callback_data=url)
         download_buttons.append([inline_download_button])
@@ -117,6 +118,7 @@ def get_track_link(query_data):
     try:
         result = json.loads(query_data)['link']
     except Exception as e:
+        print(e)
         result = query_data
 
     return result
@@ -125,6 +127,7 @@ def get_provider_type(query_data):
     try:
         result = json.loads(query_data)['provider']
     except Exception as e:
+        print(e)
         result = 'zaycev_net'
 
     return result

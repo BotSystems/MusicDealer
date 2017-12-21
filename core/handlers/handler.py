@@ -14,9 +14,12 @@ messages = Messages()
 def build_download_keyboard(songs_data):
     download_buttons = []
     for data in songs_data:
+
         title = data[0]
         url = data[1]
-        inline_download_button = InlineKeyboardButton(title, callback_data=url)
+
+        data = json.dumps({'provider': 'zaycev_net', 'link': url})
+        inline_download_button = InlineKeyboardButton(title, callback_data=data)
         download_buttons.append([inline_download_button])
     return download_buttons
 
@@ -110,7 +113,7 @@ def send_info(bot, update):
 
 def get_track_link(query_data):
     try:
-        result = json.loads(query_data)['title']
+        result = json.loads(query_data)['link']
     except Exception as e:
         result = query_data
 
@@ -150,7 +153,7 @@ def init_handlers(dispatcher):
 
 if __name__ == '__main__':
     example_data = '/musicset/play/4ba0a8adb8da96f69b0a8919da9fb0fb/1611152.json'
-    example_data = json.dumps({'provider': 'Deezer', 'title': 'The Hardkiss - Stone'})
+    example_data = json.dumps({'provider': 'Deezer', 'link': 'The Hardkiss - Stone'})
 
     # x = {'a': 1, 'b': 2}
     # print(type(json.dumps(x)))

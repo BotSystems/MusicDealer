@@ -24,7 +24,7 @@ def build_download_keyboard(songs_data):
         print('SIZE: ', len(url))
         print('SIZE: ', len(data.encode('utf-8')))
 
-        inline_download_button = InlineKeyboardButton(title, callback_data=data)
+        inline_download_button = InlineKeyboardButton(title, callback_data=data[:10])
         download_buttons.append([inline_download_button])
     print(download_buttons)
     return download_buttons

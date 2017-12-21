@@ -24,7 +24,7 @@ def build_download_keyboard(songs_data):
 
         inline_download_button = InlineKeyboardButton(title, callback_data=data)
         download_buttons.append([inline_download_button])
-        print('OKKK')
+    print(download_buttons)
     return download_buttons
 
 

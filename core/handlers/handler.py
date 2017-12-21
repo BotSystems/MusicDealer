@@ -6,6 +6,7 @@ from core.handlers.decorators import save_chanel_decorator
 from core.handlers.finder import parse_result, normalize_download_url
 from core.handlers.messages import Messages
 from core.paging.page import Page
+import json
 
 messages = Messages()
 
@@ -105,11 +106,21 @@ def send_info(bot, update):
     return bot.send_message(update.message.chat.id, message)
 
 
-def get_track_link(query):
-    return query.data
+def get_track_link(query_data):
+    try:
+        result = json.loads(query_data)['title']
+    except Exception as e:
+        result = query_data
 
-def get_provider_type(query):
-    return 'zaycev_net'
+    return result
+
+def get_provider_type(query_data):
+    try:
+        result = json.loads(query_data)['provider']
+    except Exception as e:
+        result = 'zaycev_net'
+
+    return result
 
 @save_chanel_decorator
 # @save_download_decorator
@@ -119,8 +130,8 @@ def download_song(bot, update, *args, **kwargs):
 
     print('QUERY: ', query)
 
-    track_link = get_track_link(query)
-    provider = get_provider_type(query)
+    track_link = get_track_link(query.data)
+    provider = get_provider_type(query.data)
 
     download_url = normalize_download_url(track_link, provider)
     bot.send_audio(query.message.chat_id, download_url)
@@ -136,4 +147,11 @@ def init_handlers(dispatcher):
 
 
 if __name__ == '__main__':
-    pass
+    example_data = '/musicset/play/4ba0a8adb8da96f69b0a8919da9fb0fb/1611152.json'
+    example_data = json.dumps({'provider': 'Deezer', 'title': 'The Hardkiss - Stone'})
+
+    # x = {'a': 1, 'b': 2}
+    # print(type(json.dumps(x)))
+
+    print(get_track_link(example_data))
+    print(get_provider_type(example_data))

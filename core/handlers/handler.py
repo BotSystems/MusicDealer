@@ -13,7 +13,9 @@ messages = Messages()
 
 def build_download_keyboard(songs_data):
     download_buttons = []
-    for title, url in songs_data:
+    for data in songs_data:
+        title = data[0]
+        url = data[1]
         inline_download_button = InlineKeyboardButton(title, callback_data=url)
         download_buttons.append([inline_download_button])
     return download_buttons

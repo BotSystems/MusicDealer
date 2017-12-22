@@ -152,7 +152,7 @@ def get_provider_type(query_data):
     if ALIASES_DELIMITER in query_data:
         provider = query_data.split(ALIASES_DELIMITER)[0]
         return PROVIDER_ALIASES_BACK[provider]
-    return query_data
+    return 'zaycev_net'
 
     # try:
     #     result = json.loads(query_data)['provider']
@@ -187,7 +187,7 @@ def init_handlers(dispatcher):
 
 
 if __name__ == '__main__':
-    example_data = 'dz::/musicset/play/4ba0a8adb8da96f69b0a8919da9fb0fb/1611152.json'
+    example_data = '/musicset/play/4ba0a8adb8da96f69b0a8919da9fb0fb/1611152.json'
     # example_data = json.dumps({'provider': 'Deezer', 'link': '/musicset/play/4ba0a8adb8da96f69b0a8919da9fb0fb/1611152.json'})
 
     # x = {'a': 1, 'b': 2}

@@ -32,7 +32,7 @@ def build_download_keyboard(songs_data):
 
         title = data[0]
         url = data[1]
-        provider = 'zaycev_net'
+        provider = data[2]
 
         provider_alias = PROVIDER_ALIASES[provider]
 

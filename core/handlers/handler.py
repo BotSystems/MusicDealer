@@ -28,7 +28,7 @@ def build_download_keyboard(songs_data):
     download_buttons = []
     for data in songs_data:
 
-        print(data)
+        print('------>>>', data)
 
         title = data[0]
         url = data[1]

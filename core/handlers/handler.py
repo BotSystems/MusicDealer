@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import json
+
 from telegram import InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import MessageHandler, CommandHandler, CallbackQueryHandler, Filters
 
@@ -6,9 +8,20 @@ from core.handlers.decorators import save_chanel_decorator
 from core.handlers.finder import parse_result, normalize_download_url
 from core.handlers.messages import Messages
 from core.paging.page import Page
-import json
 
 messages = Messages()
+
+PROVIDER_ALIASES = {
+    'zaycev_net': 'zn',
+    'deezer': 'dz'
+}
+
+PROVIDER_ALIASES_BACK = {
+    'zn': 'zaycev_net',
+    'dz': 'deezer'
+}
+
+ALIASES_DELIMITER = '::'
 
 
 def build_download_keyboard(songs_data):
@@ -17,14 +30,16 @@ def build_download_keyboard(songs_data):
 
         title = data[0]
         url = data[1]
+        provider = 'zaycev_net'
 
-        data = json.dumps({'provider': 'zaycev_net', 'link': url})
+        provider_alias = PROVIDER_ALIASES[provider]
+
+        data = '{}{}{}'.format(provider_alias, ALIASES_DELIMITER, url)
+
         print('DATA: ', data)
-        print('TYPE: ', type(data))
-        print('SIZE: ', len(url))
-        print('SIZE: ', len(data.encode('utf-8')))
 
-        inline_download_button = InlineKeyboardButton(title, callback_data=data[:10])
+
+        inline_download_button = InlineKeyboardButton(title, callback_data=data)
         download_buttons.append([inline_download_button])
     print(download_buttons)
     return download_buttons
@@ -121,22 +136,31 @@ def send_info(bot, update):
 
 
 def get_track_link(query_data):
-    try:
-        result = json.loads(query_data)['link']
-    except Exception as e:
-        print(e)
-        result = query_data
+    if ALIASES_DELIMITER in query_data:
+        return query_data.split(ALIASES_DELIMITER)[1]
+    return query_data
 
-    return result
+    # try:
+    #     result = json.loads(query_data)['link']
+    # except Exception as e:
+    #     print(e)
+    #     result = query_data
+    #
+    # return result
 
 def get_provider_type(query_data):
-    try:
-        result = json.loads(query_data)['provider']
-    except Exception as e:
-        print(e)
-        result = 'zaycev_net'
+    if ALIASES_DELIMITER in query_data:
+        provider = query_data.split(ALIASES_DELIMITER)[0]
+        return PROVIDER_ALIASES_BACK[provider]
+    return query_data
 
-    return result
+    # try:
+    #     result = json.loads(query_data)['provider']
+    # except Exception as e:
+    #     print(e)
+    #     result = 'zaycev_net'
+    #
+    # return result
 
 @save_chanel_decorator
 # @save_download_decorator
@@ -163,8 +187,8 @@ def init_handlers(dispatcher):
 
 
 if __name__ == '__main__':
-    example_data = '/musicset/play/4ba0a8adb8da96f69b0a8919da9fb0fb/1611152.json'
-    example_data = json.dumps({'provider': 'Deezer', 'link': '/musicset/play/4ba0a8adb8da96f69b0a8919da9fb0fb/1611152.json'})
+    example_data = 'dz::/musicset/play/4ba0a8adb8da96f69b0a8919da9fb0fb/1611152.json'
+    # example_data = json.dumps({'provider': 'Deezer', 'link': '/musicset/play/4ba0a8adb8da96f69b0a8919da9fb0fb/1611152.json'})
 
     # x = {'a': 1, 'b': 2}
     # print(type(json.dumps(x)))

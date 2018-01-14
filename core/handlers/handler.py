@@ -3,6 +3,7 @@
 from telegram import InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import MessageHandler, CommandHandler, CallbackQueryHandler, Filters
 
+from core.chanel.models import Chanel
 from core.handlers.decorators import save_chanel_decorator
 from core.handlers.finder import parse_result, normalize_download_url
 from core.handlers.messages import Messages
@@ -87,6 +88,9 @@ def broadcast(bot, update):
     print('BROADCAST!')
     print(bot)
     print(bot.area)
+    channels = Chanel.select().where(Chanel.area == bot.area)
+    chat_ids = [channel.chanel_id for channel in channels]
+    print(chat_ids)
     chat_ids = [292198768]
     for chat_id in chat_ids:
         bot.forward_message(chat_id, update.channel_post.chat.id, update.channel_post.message_id)

@@ -35,8 +35,6 @@ def build_download_keyboard(songs_data):
 
         data = '{}{}{}'.format(provider_alias, ALIASES_DELIMITER, url)
 
-        print('DATA: ', data)
-
         inline_download_button = InlineKeyboardButton(title, callback_data=data)
         download_buttons.append([inline_download_button])
     return download_buttons
@@ -88,13 +86,13 @@ def broadcast(bot, update):
     print('CHANNELS COUNT: ', len(chat_ids))
     broadcast_success = 0
     broadcast_fail = 0
-    for chat_id in chat_ids:
-        try:
-            bot.forward_message(chat_id, update.channel_post.chat.id, update.channel_post.message_id, True)
-            broadcast_success += 1
-        except Exception as ex:
-            broadcast_fail += 1
-            print('Exception: ', ex)
+    # for chat_id in chat_ids:
+    #     try:
+    #         bot.forward_message(chat_id, update.channel_post.chat.id, update.channel_post.message_id, True)
+    #         broadcast_success += 1
+    #     except Exception as ex:
+    #         broadcast_fail += 1
+    #         print('Exception: ', ex)
     print('-' * 20)
     print('BROADCAST SUCCESS: {}'.format(broadcast_success))
     print('BROADCAST FAIL: {}'.format(broadcast_fail))

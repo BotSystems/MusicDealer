@@ -96,7 +96,7 @@ def broadcast(bot, update):
     broadcast_fail = 0
     for chat_id in chat_ids:
         try:
-            bot.forward_message(chat_id, update.channel_post.chat.id, update.channel_post.message_id)
+            bot.forward_message(chat_id, update.channel_post.chat.id, update.channel_post.message_id, True)
             broadcast_success += 1
         except Exception as ex:
             broadcast_fail += 1

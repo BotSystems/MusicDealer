@@ -27,7 +27,6 @@ ALIASES_DELIMITER = '::'
 def build_download_keyboard(songs_data):
     download_buttons = []
     for data in songs_data:
-
         title = data[0]
         url = data[1]
         provider = data[2]
@@ -93,10 +92,13 @@ def broadcast(bot, update):
         try:
             bot.forward_message(chat_id, update.channel_post.chat.id, update.channel_post.message_id, True)
             broadcast_success += 1
-        except Exception:
+        except Exception as ex:
             broadcast_fail += 1
+            print('Exception: ', ex)
+    print('-' * 20)
     print('BROADCAST SUCCESS: {}'.format(broadcast_success))
     print('BROADCAST FAIL: {}'.format(broadcast_fail))
+    print('-' * 20)
 
 
 def handle_message(bot, update):

@@ -85,12 +85,12 @@ def search_track(bot, update):
 
 def broadcast(bot, update):
     print('BROADCAST!')
-    print(update)
     # for chat_id in chat_ids:
     #     bot.forward_message(chat_id, update.channel_post.chat.id, update.channel_post.message_id)
 
 
 def handle_message(bot, update):
+    print(update)
     if is_from_group(update):
         broadcast(bot, update)
     else:

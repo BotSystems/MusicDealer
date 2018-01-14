@@ -13,7 +13,6 @@ class Adv:
         self.message = message
 
     def build_keyboard(self, message):
-        print(message.get_massage('open_adv'))
         button = [InlineKeyboardButton(message.get_massage('open_adv'), url=self.link)]
         return InlineKeyboardMarkup([button])
 

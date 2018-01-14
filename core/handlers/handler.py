@@ -27,7 +27,6 @@ ALIASES_DELIMITER = '::'
 def build_download_keyboard(songs_data):
     download_buttons = []
     for data in songs_data:
-        print('!!------>>>', data)
 
         title = data[0]
         url = data[1]
@@ -41,7 +40,6 @@ def build_download_keyboard(songs_data):
 
         inline_download_button = InlineKeyboardButton(title, callback_data=data)
         download_buttons.append([inline_download_button])
-    print(download_buttons)
     return download_buttons
 
 
@@ -86,8 +84,6 @@ def search_track(bot, update):
 
 def broadcast(bot, update):
     print('BROADCAST!')
-    print(bot)
-    print(bot.area)
     channels = Chanel.select().where(Chanel.area == bot.area)
     chat_ids = [channel.chanel_id for channel in channels]
     # print(chat_ids)
@@ -105,7 +101,6 @@ def broadcast(bot, update):
 
 
 def handle_message(bot, update):
-    print(update)
     if is_from_group(update):
         broadcast(bot, update)
     else:
@@ -202,8 +197,6 @@ def get_provider_type(query_data):
 def download_song(bot, update, *args, **kwargs):
     messages.set_language(bot.area.language)
     query = update.callback_query
-
-    print('QUERY: ', query)
 
     track_link = get_track_link(query.data)
     provider = get_provider_type(query.data)

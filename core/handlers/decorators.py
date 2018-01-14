@@ -5,7 +5,6 @@ from core.download.models import Download
 
 def save_chanel_decorator(fn):
     def wrapper(bot, update, *args, **kwargs):
-        print('SAVE CHANEL')
 
         try:
             area = bot.area
@@ -20,7 +19,6 @@ def save_chanel_decorator(fn):
 
             defaults = {'chanel_id': chat_id, 'first_name': first_name, 'last_name': last_name, 'area': area}
             chanel, is_new = Chanel.get_or_create(area=area, chanel_id=chat_id, defaults=defaults)
-            print(chanel)
             chanel.update_me()
         except Exception as ex:
             print(ex)
@@ -32,7 +30,6 @@ def save_chanel_decorator(fn):
 
 def save_download_decorator(fn):
     def wrapper(bot, update, *args, **kwargs):
-        print('SAVE DOWNLOAD')
 
         try:
             chat_id = update.callback_query.message.chat.id

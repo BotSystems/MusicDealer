@@ -85,8 +85,9 @@ def search_track(bot, update):
 
 def broadcast(bot, update):
     print('BROADCAST!')
-    # for chat_id in chat_ids:
-    #     bot.forward_message(chat_id, update.channel_post.chat.id, update.channel_post.message_id)
+    chat_ids = [292198768]
+    for chat_id in chat_ids:
+        bot.forward_message(chat_id, update.channel_post.chat.id, update.channel_post.message_id)
 
 
 def handle_message(bot, update):

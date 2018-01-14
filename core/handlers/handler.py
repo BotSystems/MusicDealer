@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import json
 
 from telegram import InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import MessageHandler, CommandHandler, CallbackQueryHandler, Filters
@@ -27,7 +26,6 @@ ALIASES_DELIMITER = '::'
 def build_download_keyboard(songs_data):
     download_buttons = []
     for data in songs_data:
-
         print('!!------>>>', data)
 
         title = data[0]
@@ -39,7 +37,6 @@ def build_download_keyboard(songs_data):
         data = '{}{}{}'.format(provider_alias, ALIASES_DELIMITER, url)
 
         print('DATA: ', data)
-
 
         inline_download_button = InlineKeyboardButton(title, callback_data=data)
         download_buttons.append([inline_download_button])
@@ -66,8 +63,12 @@ def attach_pager_buttons(buttons, pager, song_name):
     return pagination_buttons + buttons + pagination_buttons
 
 
+def is_from_group(update):
+    return update.channel_post
+
+
 @save_chanel_decorator
-def search_audio(bot, update):
+def search_track(bot, update):
     messages.set_language(bot.area.language)
     bot.send_message(update.message.chat.id, messages.get_massage('searching'))
     limit, offset = 5, 0
@@ -80,6 +81,18 @@ def search_audio(bot, update):
             bot.send_message(update.message.chat.id, messages.get_massage('i_try'))
     except Exception as ex:
         print(ex)
+
+
+def broadcast(bot, update):
+    print('BROADCAST!')
+
+
+def handle_message(bot, update):
+    if is_from_group(update):
+        broadcast(bot, update)
+    else:
+        search_track(bot, update)
+
 
 def make_markup_keyboard(bot, chat_id, text, limit, offset):
     try:
@@ -150,6 +163,7 @@ def get_track_link(query_data):
     #
     # return result
 
+
 def get_provider_type(query_data):
     if ALIASES_DELIMITER in query_data:
         provider = query_data.split(ALIASES_DELIMITER)[0]
@@ -163,6 +177,7 @@ def get_provider_type(query_data):
     #     result = 'zaycev_net'
     #
     # return result
+
 
 @save_chanel_decorator
 # @save_download_decorator
@@ -181,7 +196,7 @@ def download_song(bot, update, *args, **kwargs):
 
 def init_handlers(dispatcher):
     dispatcher.add_handler(CommandHandler('start', send_info))
-    dispatcher.add_handler(MessageHandler(Filters.text, search_audio))
+    dispatcher.add_handler(MessageHandler(Filters.text, handle_message))
     dispatcher.add_handler(CallbackQueryHandler(prev_page, True, False, 'pager.prev.*'))
     dispatcher.add_handler(CallbackQueryHandler(next_page, True, False, 'pager.next.*'))
     dispatcher.add_handler(CallbackQueryHandler(download_song, pass_update_queue=True))
@@ -189,11 +204,13 @@ def init_handlers(dispatcher):
 
 
 if __name__ == '__main__':
-    example_data = '/musicset/play/4ba0a8adb8da96f69b0a8919da9fb0fb/1611152.json'
-    # example_data = json.dumps({'provider': 'Deezer', 'link': '/musicset/play/4ba0a8adb8da96f69b0a8919da9fb0fb/1611152.json'})
+    # example_data = '/musicset/play/4ba0a8adb8da96f69b0a8919da9fb0fb/1611152.json'
+    #
+    # print(get_track_link(example_data))
+    # print(get_provider_type(example_data))
 
-    # x = {'a': 1, 'b': 2}
-    # print(type(json.dumps(x)))
+    import deezer
 
-    print(get_track_link(example_data))
-    print(get_provider_type(example_data))
+    client = deezer.Client()
+    track_id = client.search('hardkiss')[0].id
+    print(client.get_track(track_id).link)

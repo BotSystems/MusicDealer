@@ -29,7 +29,7 @@ class Bot(telegram.Bot):
                         disable_notification=False,
                         timeout=None,
                         **kwargs):
-        return super(Bot, self).forward_message(chat_id, from_chat_id, message_id, disable_notification, timeout, kwargs)
+        return super(Bot, self).forward_message(chat_id, from_chat_id, message_id, disable_notification, timeout, **kwargs)
 
     @mq.queuedmessage
     def send_message(self, *args, **kwargs):

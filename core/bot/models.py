@@ -6,13 +6,8 @@ class Bot(telegram.Bot):
     area = None
     dispatcher = None
 
-    '''A subclass of Bot which delegates send method handling to MQ'''
-
-    def __init__(self, *args, is_queued_def=True, mqueue=None, **kwargs):
-        super(Bot, self).__init__(*args, **kwargs)
-        # below 2 attributes should be provided for decorator usage
-        self._is_messages_queued_default = is_queued_def
-        self._msg_queue = mqueue or mq.MessageQueue(25)
+    _is_messages_queued_default = None
+    _msg_queue = None
 
     def __del__(self):
         try:

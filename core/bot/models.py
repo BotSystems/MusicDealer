@@ -24,10 +24,4 @@ class Bot(telegram.Bot):
                         disable_notification=False,
                         timeout=None,
                         **kwargs):
-        super(Bot, self).forward_message(chat_id, from_chat_id, message_id, disable_notification, timeout, **kwargs)
-
-    # @mq.queuedmessage
-    def send_message(self, *args, **kwargs):
-        '''Wrapped method would accept new `queued` and `isgroup`
-        OPTIONAL arguments'''
-        return super(Bot, self).send_message(*args, **kwargs)
+        return super(Bot, self).forward_message(chat_id, from_chat_id, message_id, disable_notification, timeout, **kwargs)

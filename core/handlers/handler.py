@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from telegram import InlineKeyboardMarkup, InlineKeyboardButton
-from telegram.ext import MessageHandler, CommandHandler, CallbackQueryHandler, Filters
+from telegram.ext import MessageHandler, CommandHandler, CallbackQueryHandler, Filters, messagequeue
 
 from core.chanel.models import Chanel
 from core.handlers.decorators import save_chanel_decorator

@@ -9,6 +9,6 @@ class Factory:
     def create(area):
         bot = Bot(area.token)
         bot.area = area
-        bot.dispatcher = init_handlers(Dispatcher(bot, None, workers=0))
+        bot.dispatcher = init_handlers(Dispatcher(bot, None))
 
         return bot

@@ -71,9 +71,10 @@ def search_track(bot, update):
     keyboard = make_markup_keyboard(bot, update.message.chat.id, update.message.text, limit, offset)
 
     try:
-        bot.delete_message(update.message.chat.id, message.message_id)
+        # bot.delete_message(update.message.chat.id, message.message_id)
         if keyboard:
-            bot.send_message(update.message.chat.id, messages.get_massage('i_find'), reply_markup=keyboard)
+            bot.edit_message_text(messages.get_massage('i_find'), update.message.chat.id, message.message_id, reply_markup=keyboard)
+            # bot.send_message(update.message.chat.id, messages.get_massage('i_find'), reply_markup=keyboard)
         else:
             bot.send_message(update.message.chat.id, messages.get_massage('i_try'))
     except Exception as ex:

@@ -14,6 +14,6 @@ class Factory:
         bot.dispatcher = init_handlers(Dispatcher(bot, None))
 
         bot._is_messages_queued_default = True
-        bot._msg_queue = mq.MessageQueue(25)
+        bot._msg_queue = mq.MessageQueue(all_burst_limit=10, all_time_limit_ms=1000)
 
         return bot

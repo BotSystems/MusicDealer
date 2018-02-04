@@ -9,7 +9,7 @@ class Factory:
     @staticmethod
     def create(area):
         # for test purposes limit global throughput to 3 messages per 3 seconds
-        q = mq.MessageQueue(all_burst_limit=3, all_time_limit_ms=3000)
+        q = mq.MessageQueue(all_burst_limit=25, all_time_limit_ms=1000)
 
         bot = MQBot(area.token, mqueue=q)
 

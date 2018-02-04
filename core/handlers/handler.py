@@ -66,13 +66,12 @@ def is_from_group(update):
 @save_chanel_decorator
 def search_track(bot, update):
     messages.set_language(bot.area.language)
-    message_id = bot.send_message(update.message.chat.id, messages.get_massage('searching'))
-    print('MESSAGE ID: ', message_id)
-    # bot.edit_message_text()
+    message = bot.send_message(update.message.chat.id, messages.get_massage('searching'))
     limit, offset = 5, 0
     keyboard = make_markup_keyboard(bot, update.message.chat.id, update.message.text, limit, offset)
 
     try:
+        bot.delete_message(update.message.chat.id, message.message_id)
         if keyboard:
             bot.send_message(update.message.chat.id, messages.get_massage('i_find'), reply_markup=keyboard)
         else:

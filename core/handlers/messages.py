@@ -5,14 +5,16 @@ class Messages:
             'searching': 'Ищу...',
             'i_find': 'Смотри, что я нашел:',
             'i_try': 'Я действительно старался, но нет ничего :(',
-            'open_adv': 'Открыть'
+            'open_adv': 'Открыть',
+            'download': '🔊 Загрузка...'
         },
         'en': {
             'intro': 'It`s time for good music. I`m ready to search for your favorite tracks, where do we start?',
             'searching': 'Searching...',
             'i_find': 'Check this sounds, bro:',
             'i_try': 'I really tried but i can`t find anything :(',
-            'open_adv': 'Open'
+            'open_adv': 'Open',
+            'download': '🔊 Download...'
         }
     }
     DEFAULT_LANGUAGE = 'ru'

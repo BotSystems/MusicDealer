@@ -51,10 +51,10 @@ def attach_pager_buttons(buttons, pager, song_name):
     next_callback = next_callback_template.format(limit, offset, song_name)
 
     if pager.has_prev:
-        pagination_buttons[0].append(InlineKeyboardButton('<<<', callback_data=prev_callback))
+        pagination_buttons[0].append(InlineKeyboardButton('◀️', callback_data=prev_callback))
 
     if pager.has_next:
-        pagination_buttons[0].append(InlineKeyboardButton('>>>', callback_data=next_callback))
+        pagination_buttons[0].append(InlineKeyboardButton('▶️', callback_data=next_callback))
 
     return pagination_buttons + buttons + pagination_buttons
 
@@ -194,7 +194,7 @@ def get_provider_type(query_data):
 @save_chanel_decorator
 # @save_download_decorator
 def download_song(bot, update, *args, **kwargs):
-    bot.answer_callback_query(update.callback_query.id, '🔊 Загрузка...')
+    bot.answer_callback_query(update.callback_query.id, messages.get_massage('download'))
     messages.set_language(bot.area.language)
     query = update.callback_query
 

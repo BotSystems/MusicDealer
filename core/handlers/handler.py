@@ -87,6 +87,7 @@ def broadcast(bot, update):
     broadcast_success = 0
     broadcast_fail = 0
     for chat_id in chat_ids:
+        print('go')
         try:
             bot.forward_message(chat_id, update.channel_post.chat.id, update.channel_post.message_id, True)
             broadcast_success += 1

@@ -194,7 +194,7 @@ def get_provider_type(query_data):
 @save_chanel_decorator
 # @save_download_decorator
 def download_song(bot, update, *args, **kwargs):
-    bot.answer_callback_query(update.callback_query.id, 'Загрузка...', True)
+    bot.answer_callback_query(update.callback_query.id, '🔊 Загрузка...', True)
     messages.set_language(bot.area.language)
     query = update.callback_query
 

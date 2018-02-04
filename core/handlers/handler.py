@@ -204,12 +204,36 @@ def download_song(bot, update, *args, **kwargs):
     bot.send_audio(query.message.chat_id, download_url)
 
 
+@save_chanel_decorator
+def buy(bot, update):
+    messages.set_language(bot.area.language)
+    message = '''
+    Хочешь такого же бота?
+Напиши мне @igorkpl
+Стоимость подключения - 49$
+Средства пойдут на покупку серверов и подключение других музыкальных сервисов.
+Добра тебе. '''
+    return bot.send_message(update.message.chat.id, message)
+
+@save_chanel_decorator
+def donate(bot, update):
+    messages.set_language(bot.area.language)
+    message = '''
+    Как ты уже мог заметить - этот бот абсолютно бесплатный, при этом - он требует вложений, в том числе и финансовых.
+Свою благодарность можно выразить прямиком на банковскую карту (MasterCard): *5169 3600 0134 9707*.
+И да, сообщи об этом мне @igorkpl, я сделаю так, что бы тебе никогда не приходила реклама.
+Добра тебе. '''
+    return bot.send_message(update.message.chat.id, message, parse_mode='Markdown')
+
+
 def init_handlers(dispatcher):
     dispatcher.add_handler(CommandHandler('start', send_info))
     dispatcher.add_handler(MessageHandler(Filters.text, handle_message))
     dispatcher.add_handler(CallbackQueryHandler(prev_page, True, False, 'pager.prev.*'))
     dispatcher.add_handler(CallbackQueryHandler(next_page, True, False, 'pager.next.*'))
     dispatcher.add_handler(CallbackQueryHandler(download_song, pass_update_queue=True))
+    dispatcher.add_handler(CommandHandler('buy', buy))
+    dispatcher.add_handler(CommandHandler('donate', donate))
     return dispatcher
 
 

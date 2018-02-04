@@ -1,18 +1,20 @@
 class Messages:
     ALL = {
         'ru': {
-            'intro': 'Самое время для хорошей музыки. Я уже готов искать твои любимые треки, с чего начнём?',
-            'searching': 'Ищу...',
-            'i_find': 'Смотри, что я нашел:',
-            'i_try': 'Я действительно старался, но нет ничего :(',
-            'open_adv': 'Открыть'
+            'intro': 'Самое время для хорошей музыки. Я уже готов искать твои любимые треки, с чего начнём? 🤗',
+            'searching': '🔎 Ищу...',
+            'i_find': '🎶 Смотри, что я нашел:',
+            'i_try': '😭 Я действительно старался, но нет ничего :(',
+            'open_adv': 'Открыть',
+            'download': '🔊 Загрузка...'
         },
         'en': {
-            'intro': 'It`s time for good music. I`m ready to search for your favorite tracks, where do we start?',
-            'searching': 'Searching...',
-            'i_find': 'Check this sounds, bro:',
-            'i_try': 'I really tried but i can`t find anything :(',
-            'open_adv': 'Open'
+            'intro': 'It`s time for good music. I`m ready to search for your favorite tracks, where do we start? 🤗',
+            'searching': '🔎 Searching...',
+            'i_find': '🎶 Check this sounds, bro:',
+            'i_try': '😭 I really tried but i can`t find anything :(',
+            'open_adv': 'Open',
+            'download': '🔊 Download...'
         }
     }
     DEFAULT_LANGUAGE = 'ru'

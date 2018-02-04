@@ -51,10 +51,10 @@ def attach_pager_buttons(buttons, pager, song_name):
     next_callback = next_callback_template.format(limit, offset, song_name)
 
     if pager.has_prev:
-        pagination_buttons[0].append(InlineKeyboardButton('<<<', callback_data=prev_callback))
+        pagination_buttons[0].append(InlineKeyboardButton('◀️', callback_data=prev_callback))
 
     if pager.has_next:
-        pagination_buttons[0].append(InlineKeyboardButton('>>>', callback_data=next_callback))
+        pagination_buttons[0].append(InlineKeyboardButton('▶️', callback_data=next_callback))
 
     return pagination_buttons + buttons + pagination_buttons
 
@@ -66,13 +66,15 @@ def is_from_group(update):
 @save_chanel_decorator
 def search_track(bot, update):
     messages.set_language(bot.area.language)
-    bot.send_message(update.message.chat.id, messages.get_massage('searching'))
+    message = bot.send_message(update.message.chat.id, messages.get_massage('searching'))
     limit, offset = 5, 0
     keyboard = make_markup_keyboard(bot, update.message.chat.id, update.message.text, limit, offset)
 
     try:
+        # bot.delete_message(update.message.chat.id, message.message_id)
         if keyboard:
-            bot.send_message(update.message.chat.id, messages.get_massage('i_find'), reply_markup=keyboard)
+            bot.edit_message_text(messages.get_massage('i_find'), update.message.chat.id, message.message_id, reply_markup=keyboard)
+            # bot.send_message(update.message.chat.id, messages.get_massage('i_find'), reply_markup=keyboard)
         else:
             bot.send_message(update.message.chat.id, messages.get_massage('i_try'))
     except Exception as ex:
@@ -124,7 +126,6 @@ def make_markup_keyboard(bot, chat_id, text, limit, offset):
     except Exception as ex:
         print(ex)
     return None
-
 
 def next_page(bot, update, *args, **kwargs):
     query = update.callback_query
@@ -195,6 +196,7 @@ def get_provider_type(query_data):
 @save_chanel_decorator
 # @save_download_decorator
 def download_song(bot, update, *args, **kwargs):
+    bot.answer_callback_query(update.callback_query.id, messages.get_massage('download'))
     messages.set_language(bot.area.language)
     query = update.callback_query
 

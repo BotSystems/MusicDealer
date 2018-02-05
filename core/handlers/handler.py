@@ -103,10 +103,11 @@ def broadcast(bot, update):
 
 
 def handle_message(bot, update):
-    if is_from_group(update):
-        broadcast(bot, update)
-    else:
-        search_track(bot, update)
+    search_track(bot, update)
+#     if is_from_group(update):
+#         broadcast(bot, update)
+#     else:
+#         search_track(bot, update)
 
 
 def make_markup_keyboard(bot, chat_id, text, limit, offset):

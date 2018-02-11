@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 
 from telegram import InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import MessageHandler, CommandHandler, CallbackQueryHandler, Filters, messagequeue
@@ -104,7 +105,8 @@ def broadcast(bot, update):
 def is_group_available_for_broadcast(bot, update, callback):
     print(update)
     print(update.channel_post.chat.username)
-    available_groups = ['botonarioum_adv']
+    available_groups = os.getenv('AVAILABLE_CHANNELS', '').split(',')
+    print(available_groups)
 
 def handle_message(bot, update):
     if is_from_group(update):

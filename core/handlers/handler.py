@@ -108,7 +108,9 @@ def is_group_available_for_broadcast(bot, update, callback):
 
 def handle_message(bot, update):
     if is_from_group(update):
+        print('---------------------------------')
         is_group_available_for_broadcast(bot, update, broadcast)
+        print('---------------------------------')
         # broadcast(bot, update)
     else:
         search_track(bot, update)

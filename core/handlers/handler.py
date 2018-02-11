@@ -103,10 +103,10 @@ def broadcast(bot, update):
     print('-' * 20)
 
 def is_group_available_for_broadcast(bot, update, callback):
-    print(update)
-    print(update.channel_post.chat.username)
+    # print(update)
+    # print(update.channel_post.chat.username)
     available_groups = os.getenv('AVAILABLE_CHANNELS', '').split(',')
-    print(available_groups)
+    print(':::::', available_groups)
 
 def handle_message(bot, update):
     if is_from_group(update):

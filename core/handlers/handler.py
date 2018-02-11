@@ -101,10 +101,14 @@ def broadcast(bot, update):
     print('BROADCAST FAIL: {}'.format(broadcast_fail))
     print('-' * 20)
 
+def is_group_available_for_broadcast(bot, update, callback):
+    print(update)
+    available_groups = ['botonarioum_adv']
 
 def handle_message(bot, update):
     if is_from_group(update):
-        broadcast(bot, update)
+        is_group_available_for_broadcast(bot, update, broadcast)
+        # broadcast(bot, update)
     else:
         search_track(bot, update)
 

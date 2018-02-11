@@ -102,20 +102,18 @@ def broadcast(bot, update):
     print('BROADCAST FAIL: {}'.format(broadcast_fail))
     print('-' * 20)
 
+
 def is_group_available_for_broadcast(bot, update, callback):
-    # print(update)
-    # print(update.channel_post.chat.username)
     available_groups = os.getenv('AVAILABLE_CHANNELS', '').split(',')
     if update.channel_post.chat.username in available_groups:
         callback(bot, update)
-    # print(':::::', available_groups)
+
 
 def handle_message(bot, update):
     if is_from_group(update):
         print('---------------------------------')
         is_group_available_for_broadcast(bot, update, broadcast)
         print('---------------------------------')
-        # broadcast(bot, update)
     else:
         search_track(bot, update)
 

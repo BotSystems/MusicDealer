@@ -103,7 +103,7 @@ def broadcast(bot, update):
 
 def is_group_available_for_broadcast(bot, update, callback):
     print(update)
-    print(update.chat)
+    print(update.channel_post.chat.username)
     available_groups = ['botonarioum_adv']
 
 def handle_message(bot, update):

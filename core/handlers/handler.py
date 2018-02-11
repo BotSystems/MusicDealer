@@ -102,7 +102,7 @@ def broadcast(bot, update):
     print('-' * 20)
 
 def is_group_available_for_broadcast(bot, update, callback):
-    print(update)
+    print(update.chat.username)
     available_groups = ['botonarioum_adv']
 
 def handle_message(bot, update):

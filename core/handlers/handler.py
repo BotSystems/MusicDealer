@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 
 from telegram import InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import MessageHandler, CommandHandler, CallbackQueryHandler, Filters, messagequeue
@@ -102,12 +103,19 @@ def broadcast(bot, update):
     print('-' * 20)
 
 
+def is_group_available_for_broadcast(bot, update, callback):
+    available_groups = os.getenv('AVAILABLE_CHANNELS', '').split(',')
+    if update.channel_post.chat.username in available_groups:
+        callback(bot, update)
+
+
 def handle_message(bot, update):
-    search_track(bot, update)
-#     if is_from_group(update):
-#         broadcast(bot, update)
-#     else:
-#         search_track(bot, update)
+    if is_from_group(update):
+        print('---------------------------------')
+        is_group_available_for_broadcast(bot, update, broadcast)
+        print('---------------------------------')
+    else:
+        search_track(bot, update)
 
 
 def make_markup_keyboard(bot, chat_id, text, limit, offset):

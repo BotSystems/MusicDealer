@@ -35,6 +35,7 @@ def build_download_keyboard(songs_data):
         provider_alias = PROVIDER_ALIASES[provider]
 
         data = '{}{}{}'.format(provider_alias, ALIASES_DELIMITER, url)
+        print(data)
 
         inline_download_button = InlineKeyboardButton(title, callback_data=data)
         download_buttons.append([inline_download_button])

@@ -14,12 +14,12 @@ messages = Messages()
 
 PROVIDER_ALIASES = {
     'zaycev_net': 'zn',
-    'deezer': 'dz'
+    'mail_ru': 'mr'
 }
 
 PROVIDER_ALIASES_BACK = {
     'zn': 'zaycev_net',
-    'dz': 'deezer'
+    'mr': 'mail_ru'
 }
 
 ALIASES_DELIMITER = '::'

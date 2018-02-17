@@ -16,10 +16,10 @@ def parse_result(normalized_song_name, limit, offset):
 
 
 def normalize_download_url(data_url, provider):
-    url = 'https://track-finder.herokuapp.com/download?{}'
+    # url = 'https://track-finder.herokuapp.com/download?{}'
     params = {'url': data_url, 'provider': provider}
 
-    result = requests.get(url.format(urlencode(params))).json()
+    result = requests.get(DOWNLOAD_URL.format(urlencode(params))).json()
     if 'data' in result:
         return result['data']['download_url']
     return None

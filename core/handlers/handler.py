@@ -128,11 +128,11 @@ def make_markup_keyboard(bot, chat_id, text, limit, offset):
         pager = Page(songs_count, limit, offset)
 
         songs_buttons = build_download_keyboard(songs_data)
-        print(songs_buttons)
 
         if songs_buttons:
             buttons = attach_pager_buttons(songs_buttons, pager, text)
             keyboard = InlineKeyboardMarkup(buttons)
+            print(keyboard)
             return keyboard
 
     except Exception as ex:

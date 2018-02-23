@@ -5,7 +5,7 @@ from telegram import InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import MessageHandler, CommandHandler, CallbackQueryHandler, Filters
 
 from core.chanel.models import Chanel
-from core.handlers.decorators import save_chanel_decorator
+from core.handlers.decorators import save_chanel_decorator, save_download_decorator
 from core.handlers.finder import parse_result, normalize_download_url
 from core.handlers.messages import Messages
 from core.paging.page import Page
@@ -210,7 +210,7 @@ def get_provider_type(query_data):
 
 
 @save_chanel_decorator
-# @save_download_decorator
+@save_download_decorator
 def download_song(bot, update, *args, **kwargs):
     bot.answer_callback_query(update.callback_query.id, messages.get_massage('download'))
     messages.set_language(bot.area.language)

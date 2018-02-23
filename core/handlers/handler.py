@@ -41,11 +41,6 @@ def build_download_keyboard(songs_data):
     return download_buttons
 
 
-def add_total_button(buttons, total):
-    total_button = InlineKeyboardButton('🎧 Total: {}'.format(total))
-    return buttons + [[total_button]]
-
-
 def attach_pager_buttons(buttons, pager, song_name):
     limit, offset = pager.limit, pager.offset
     pagination_buttons = [[]]
@@ -135,7 +130,6 @@ def make_markup_keyboard(bot, chat_id, text, limit, offset):
 
         if songs_buttons:
             buttons = attach_pager_buttons(songs_buttons, pager, text)
-            buttons = add_total_button(buttons, 250)
             keyboard = InlineKeyboardMarkup(buttons)
             return keyboard
 

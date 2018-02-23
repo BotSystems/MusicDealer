@@ -124,11 +124,11 @@ def make_markup_keyboard(bot, chat_id, text, limit, offset):
         print('----------------------')
         songs_data, songs_count = parse_result(text, limit, offset)
         songs_data = list(filter(None, songs_data))
-        print(songs_data)
 
         pager = Page(songs_count, limit, offset)
 
         songs_buttons = build_download_keyboard(songs_data)
+        print(songs_buttons)
 
         if songs_buttons:
             buttons = attach_pager_buttons(songs_buttons, pager, text)

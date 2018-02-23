@@ -121,8 +121,10 @@ def handle_message(bot, update):
 
 def make_markup_keyboard(bot, chat_id, text, limit, offset):
     try:
+        print('----------------------')
         songs_data, songs_count = parse_result(text, limit, offset)
         songs_data = list(filter(None, songs_data))
+        print(songs_data)
 
         pager = Page(songs_count, limit, offset)
 

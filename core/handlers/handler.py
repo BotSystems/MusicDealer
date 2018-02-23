@@ -43,7 +43,7 @@ def build_download_keyboard(songs_data):
 
 def add_total_button(buttons, total):
     total_button = InlineKeyboardButton('🎧 Total: {}'.format(total))
-    return buttons + total_button
+    return buttons + [[total_button]]
 
 
 def attach_pager_buttons(buttons, pager, song_name):

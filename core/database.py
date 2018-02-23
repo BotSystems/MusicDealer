@@ -3,7 +3,7 @@ from os.path import join, dirname
 from pathlib import Path
 
 from dotenv import load_dotenv
-from peewee import PostgresqlDatabase
+from peewee import MySQLDatabase
 
 setting_path = os.path.join(Path(dirname(__file__)).parent, '.env.local')
 if os.path.isfile(setting_path):
@@ -13,8 +13,8 @@ if os.path.isfile(setting_path):
 DATABASE_CREDENTIALS = {
     'user': os.getenv('DB_USER'),
     'password': os.getenv('DB_PASSWORD'),
-    'host ': os.getenv('DB_HOST'),
-    'port ': os.getenv('DB_PORT')
+    'host': os.getenv('DB_HOST'),
+    'port': int(os.getenv('DB_PORT'))
 }
 
-db = PostgresqlDatabase(os.getenv('DB_NAME'), **DATABASE_CREDENTIALS)
+db = MySQLDatabase(os.getenv('DB_NAME'), **DATABASE_CREDENTIALS)

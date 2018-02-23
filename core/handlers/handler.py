@@ -2,7 +2,7 @@
 import os
 
 from telegram import InlineKeyboardMarkup, InlineKeyboardButton
-from telegram.ext import MessageHandler, CommandHandler, CallbackQueryHandler, Filters, messagequeue
+from telegram.ext import MessageHandler, CommandHandler, CallbackQueryHandler, Filters
 
 from core.chanel.models import Chanel
 from core.handlers.decorators import save_chanel_decorator
@@ -41,6 +41,11 @@ def build_download_keyboard(songs_data):
     return download_buttons
 
 
+def add_total_button(buttons, total):
+    total_button = InlineKeyboardButton('🎧 Total: {}'.format(total))
+    return buttons + total_button
+
+
 def attach_pager_buttons(buttons, pager, song_name):
     limit, offset = pager.limit, pager.offset
     pagination_buttons = [[]]
@@ -74,7 +79,8 @@ def search_track(bot, update):
     try:
         # bot.delete_message(update.message.chat.id, message.message_id)
         if keyboard:
-            bot.edit_message_text(messages.get_massage('i_find'), update.message.chat.id, message.message_id, reply_markup=keyboard)
+            bot.edit_message_text(messages.get_massage('i_find'), update.message.chat.id, message.message_id,
+                                  reply_markup=keyboard)
             # bot.send_message(update.message.chat.id, messages.get_massage('i_find'), reply_markup=keyboard)
         else:
             bot.send_message(update.message.chat.id, messages.get_massage('i_try'))
@@ -129,12 +135,14 @@ def make_markup_keyboard(bot, chat_id, text, limit, offset):
 
         if songs_buttons:
             buttons = attach_pager_buttons(songs_buttons, pager, text)
+            buttons = add_total_button(buttons, 250)
             keyboard = InlineKeyboardMarkup(buttons)
             return keyboard
 
     except Exception as ex:
         print(ex)
     return None
+
 
 def next_page(bot, update, *args, **kwargs):
     query = update.callback_query
@@ -226,6 +234,7 @@ def buy(bot, update):
 Средства пойдут на покупку серверов и подключение других музыкальных сервисов.
 Добра тебе. '''
     return bot.send_message(update.message.chat.id, message)
+
 
 @save_chanel_decorator
 def donate(bot, update):

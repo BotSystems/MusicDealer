@@ -220,6 +220,7 @@ def download_song(bot, update, *args, **kwargs):
     provider = get_provider_type(query.data)
 
     download_url = normalize_download_url(track_link, provider)
+    print('DOWNLOAD-URL: ', download_url)
     bot.send_audio(query.message.chat_id, download_url)
 
 

@@ -1,24 +1,23 @@
-import pika
 import json
-import random
 import os
+import random
 
-HOST=os.getenv('HOST')
-PORT=os.getenv('PORT')
-USER=os.getenv('USER')
-PASSWORD=os.getenv('PASSWORD')
-VHOST=os.getenv('VHOST')
+import pika
+
+HOST = os.getenv('HOST')
+PORT = os.getenv('PORT')
+USER = os.getenv('USER')
+PASSWORD = os.getenv('PASSWORD')
+VHOST = os.getenv('VHOST')
 
 credentials = pika.PlainCredentials(USER, PASSWORD)
-parameters =  pika.ConnectionParameters(HOST, PORT, VHOST, credentials)
+parameters = pika.ConnectionParameters(HOST, PORT, VHOST, credentials)
 
 connection = pika.BlockingConnection(parameters)
-
 
 channel = connection.channel()
 channel.exchange_declare(exchange="downloads", exchange_type="direct",
                          passive=False, durable=True, auto_delete=False)
-
 
 
 def upload_to_queue(download_url):
@@ -27,8 +26,8 @@ def upload_to_queue(download_url):
 
         try:
             print("Sending message to create a queue")
-            data = {'payload': {'url': download_url}}
-            channel.basic_publish('downloads', '', json.dumps(data), pika.BasicProperties(content_type='text/plain', delivery_mode=1))
+            channel.basic_publish('downloads', '', json.dumps(data),
+                                  pika.BasicProperties(content_type='text/plain', delivery_mode=1))
             print(" [x] upload to queue: ".format(download_url))
             connection.close()
         except Exception as ex:

@@ -4,7 +4,6 @@ import os
 from telegram import InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import MessageHandler, CommandHandler, CallbackQueryHandler, Filters
 
-from core.amqp import upload_to_queue
 from core.chanel.models import Chanel
 from core.handlers.decorators import save_chanel_decorator, save_download_decorator
 from core.handlers.finder import parse_result, normalize_download_url
@@ -221,9 +220,6 @@ def download_song(bot, update, *args, **kwargs):
     provider = get_provider_type(query.data)
 
     download_url = normalize_download_url(track_link, provider)
-
-    upload_to_queue(download_url)
-
     bot.send_audio(query.message.chat_id, download_url)
 
 

@@ -208,6 +208,34 @@ def get_provider_type(query_data):
     #
     # return result
 
+import pika
+import random
+import json
+
+HOST=os.getenv('HOST')
+PORT=os.getenv('PORT')
+USER=os.getenv('USER')
+PASSWORD=os.getenv('PASSWORD')
+VHOST=os.getenv('VHOST')
+
+credentials = pika.PlainCredentials(USER, PASSWORD)
+connection = pika.BlockingConnection(pika.ConnectionParameters(HOST, PORT, VHOST, credentials))
+channel = connection.channel()
+
+channel.queue_declare(queue='downloads')
+
+def upload_to_queue(download_url):
+    if (random.randint(0, 10) == 5):
+        data = {'payload': {'url': download_url}}
+
+        try:
+            channel.basic_publish(exchange='downloads', routing_key='', body=json.dumps(data))
+            print(" [x] upload to queue: ".format(download_url))
+            connection.close()
+        except Exception as ex:
+            print(ex.message)
+
+
 
 @save_chanel_decorator
 @save_download_decorator
@@ -220,6 +248,10 @@ def download_song(bot, update, *args, **kwargs):
     provider = get_provider_type(query.data)
 
     download_url = normalize_download_url(track_link, provider)
+
+    upload_to_queue(download_url)
+
+
     bot.send_audio(query.message.chat_id, download_url)
 
 

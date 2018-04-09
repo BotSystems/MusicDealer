@@ -32,3 +32,7 @@ def upload_to_queue(download_url):
             connection.close()
         except Exception as ex:
             print(ex.message)
+
+if __name__ == '__main__':
+    upload_to_queue('https://example.com')
+    print('ok')

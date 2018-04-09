@@ -21,17 +21,16 @@ channel.exchange_declare(exchange="downloads", exchange_type="direct",
 
 
 def upload_to_queue(download_url):
-    if (random.randint(0, 10) == 5):
-        data = {'payload': {'url': download_url}}
+    data = {'payload': {'url': download_url}}
 
-        try:
-            print("Sending message to create a queue")
-            channel.basic_publish('downloads', '', json.dumps(data),
-                                  pika.BasicProperties(content_type='text/plain', delivery_mode=1))
-            print(" [x] upload to queue: ".format(download_url))
-            connection.close()
-        except Exception as ex:
-            print(ex.message)
+    try:
+        print("Sending message to create a queue")
+        channel.basic_publish('downloads', '', json.dumps(data),
+                              pika.BasicProperties(content_type='text/plain', delivery_mode=1))
+        print(" [x] upload to queue: ".format(download_url))
+        connection.close()
+    except Exception as ex:
+        print(ex.message)
 
 if __name__ == '__main__':
     upload_to_queue('https://example.com')

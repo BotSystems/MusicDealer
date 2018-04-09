@@ -4,14 +4,14 @@ import random
 
 import pika
 
-HOST = os.getenv('HOST')
-PORT = os.getenv('PORT')
-USER = os.getenv('USER')
-PASSWORD = os.getenv('PASSWORD')
-VHOST = os.getenv('VHOST')
+CLOUDAMQP_URL = os.getenv('CLOUDAMQP_URL')
+# PORT = os.getenv('PORT')
+# USER = os.getenv('USER')
+# PASSWORD = os.getenv('PASSWORD')
+# VHOST = os.getenv('VHOST')
 
-credentials = pika.PlainCredentials(USER, PASSWORD)
-parameters = pika.ConnectionParameters(HOST, PORT, VHOST, credentials)
+# credentials = pika.PlainCredentials(USER, PASSWORD)
+parameters = pika.URLParameters(CLOUDAMQP_URL)
 
 connection = pika.BlockingConnection(parameters)
 

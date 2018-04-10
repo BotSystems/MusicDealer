@@ -7,7 +7,7 @@ CLOUDAMQP_URL = os.getenv('CLOUDAMQP_URL')
 QUEUE = os.getenv('QUEUE_NAME')
 
 def upload_to_queue(download_url):
-    if (10 == random.randint(1, 20)):
+    if (5 == random.randint(1, 10)):
         parameters = pika.URLParameters(CLOUDAMQP_URL)
         connection = pika.BlockingConnection(parameters)
 

@@ -23,7 +23,3 @@ class Chanel(Model):
 
     class Meta:
         database = db
-
-
-if __name__ == '__main__':
-    print('ok')

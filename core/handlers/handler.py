@@ -72,11 +72,7 @@ def search_track(bot, update):
 
     query = update.message.text
 
-    print(query)
-
     songs_data, songs_count = search_by_search_query(query, Page.DEFAULT_LIMIT, Page.DEFAULT_OFFSET)
-
-    print(songs_count)
     pager = Page(songs_count, Page.DEFAULT_LIMIT, Page.DEFAULT_OFFSET)
 
     keyboard = make_markup_keyboard(query, songs_data, pager)
@@ -173,7 +169,13 @@ def prev_page(bot, update, *args, **kwargs):
 
 
 def edit_markup(bot, chat_id, message_id, song_name, limit, offset):
-    keyboard = make_markup_keyboard(song_name, limit, offset)
+
+    query = song_name
+
+    songs_data, songs_count = search_by_search_query(query, limit, offset)
+    pager = Page(songs_count, limit, offset)
+
+    keyboard = make_markup_keyboard(query, songs_data, pager)
     try:
         bot.edit_message_reply_markup(chat_id=chat_id,
                                       message_id=message_id,

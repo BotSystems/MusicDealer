@@ -77,7 +77,7 @@ def search_track(bot, update):
     songs_data, songs_count = search_by_search_query(query, Page.DEFAULT_LIMIT, Page.DEFAULT_OFFSET)
 
     print(songs_count)
-    pager = Page(songs_count, limit, offset)
+    pager = Page(songs_count, Page.DEFAULT_LIMIT, Page.DEFAULT_OFFSET)
 
     keyboard = make_markup_keyboard(query, songs_data, pager)
 

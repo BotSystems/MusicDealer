@@ -70,12 +70,12 @@ def search_track(bot, update):
     messages.set_language(bot.area.language)
     message = bot.send_message(update.message.chat.id, messages.get_massage('searching'))
 
-    query = update.message.text
+    # query = update.message.text
 
-    songs_data, songs_count = search_by_search_query(query, Page.DEFAULT_LIMIT, Page.DEFAULT_OFFSET)
-    pager = Page(songs_count, Page.DEFAULT_LIMIT, Page.DEFAULT_OFFSET)
+    # songs_data, songs_count = search_by_search_query(query, Page.DEFAULT_LIMIT, Page.DEFAULT_OFFSET)
+    # pager = Page(songs_count, Page.DEFAULT_LIMIT, Page.DEFAULT_OFFSET)
 
-    keyboard = make_markup_keyboard(query, songs_data, pager)
+    keyboard = get_keyboard(update.message.text, Page.DEFAULT_LIMIT, Page.DEFAULT_OFFSET)
 
     try:
         if keyboard:
@@ -118,6 +118,12 @@ def handle_message(bot, update):
         is_group_available_for_broadcast(bot, update, broadcast)
     else:
         search_track(bot, update)
+
+def get_keyboard(query, limit, offset):
+    songs_data, songs_count = search_by_search_query(query, limit, offset)
+    pager = Page(songs_count, limit, offset)
+
+    return make_markup_keyboard(query, songs_data, pager)
 
 
 def search_by_search_query(text, limit, offset):
@@ -170,12 +176,12 @@ def prev_page(bot, update, *args, **kwargs):
 
 def edit_markup(bot, chat_id, message_id, song_name, limit, offset):
 
-    query = song_name
+    # query = song_name
+    #
+    # songs_data, songs_count = search_by_search_query(query, limit, offset)
+    # pager = Page(songs_count, limit, offset)
 
-    songs_data, songs_count = search_by_search_query(query, limit, offset)
-    pager = Page(songs_count, limit, offset)
-
-    keyboard = make_markup_keyboard(query, songs_data, pager)
+    keyboard = get_keyboard(song_name, limit, offset)
     try:
         bot.edit_message_reply_markup(chat_id=chat_id,
                                       message_id=message_id,

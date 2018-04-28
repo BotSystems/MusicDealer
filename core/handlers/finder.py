@@ -1,8 +1,8 @@
 # -*-coding: utf-8;-*-
 import os
-from urllib.parse import urljoin, urlencode, urlsplit
 
 import requests
+from urllib.parse import urlencode
 
 SEARCH_URL = os.getenv('SEARCH_TRACKS_TEMPLATE')
 DOWNLOAD_URL = os.getenv('DOWNLOAD_TRACK_TEMPLATE')
@@ -16,24 +16,12 @@ def parse_result(normalized_song_name, limit, offset):
 
 
 def normalize_download_url(data_url, provider):
-    # url = 'https://track-finder.herokuapp.com/download?{}'
     params = {'url': data_url, 'provider': provider}
 
     result = requests.get(DOWNLOAD_URL.format(urlencode(params))).json()
     if 'data' in result:
         return result['data']['download_url']
     return None
-
-
-# def normalize_download_url_old(data_url):
-#     url = urljoin('http://zaycev.net', data_url)
-#     result = requests.get(url).json()
-#     url = dict(result).get('url')
-#     if url:
-#         url = str.split(url, '?')
-#     if url:
-#         return url[0]
-#     return None
 
 
 if __name__ == '__main__':

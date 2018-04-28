@@ -1,4 +1,7 @@
 class Page:
+    DEFAULT_OFFSET = 0
+    DEFAULT_LIMIT = 5
+
     offset = None
     limit = None
     count = None

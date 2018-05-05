@@ -69,19 +69,21 @@ def is_from_group(update):
 def search_track(bot, update):
     messages.set_language(bot.area.language)
     message = bot.send_message(update.message.chat.id, messages.get_massage('searching'))
-    limit, offset = 5, 0
-    keyboard = make_markup_keyboard(bot, update.message.chat.id, update.message.text, limit, offset)
+
+    # query = update.message.text
+
+    # songs_data, songs_count = search_by_search_query(query, Page.DEFAULT_LIMIT, Page.DEFAULT_OFFSET)
+    # pager = Page(songs_count, Page.DEFAULT_LIMIT, Page.DEFAULT_OFFSET)
+
+    keyboard = get_keyboard(update.message.text, Page.DEFAULT_LIMIT, Page.DEFAULT_OFFSET)
 
     try:
-        # bot.delete_message(update.message.chat.id, message.message_id)
         if keyboard:
-            bot.edit_message_text(messages.get_massage('i_find'), update.message.chat.id, message.message_id,
-                                  reply_markup=keyboard)
-            # bot.send_message(update.message.chat.id, messages.get_massage('i_find'), reply_markup=keyboard)
+            bot.edit_message_text(messages.get_massage('i_find'), update.message.chat.id, message.message_id, reply_markup=keyboard)
         else:
             bot.send_message(update.message.chat.id, messages.get_massage('i_try'))
     except Exception as ex:
-        print(ex)
+        print('Exception: ', ex.message)
 
 
 def broadcast(bot, update):
@@ -113,31 +115,40 @@ def is_group_available_for_broadcast(bot, update, callback):
 
 def handle_message(bot, update):
     if is_from_group(update):
-        print('---------------------------------')
         is_group_available_for_broadcast(bot, update, broadcast)
-        print('---------------------------------')
     else:
         search_track(bot, update)
 
+def get_keyboard(query, limit, offset):
+    songs_data, songs_count = search_by_search_query(query, limit, offset)
+    pager = Page(songs_count, limit, offset)
 
-def make_markup_keyboard(bot, chat_id, text, limit, offset):
+    return make_markup_keyboard(query, songs_data, pager)
+
+
+def search_by_search_query(text, limit, offset):
+    songs_data, songs_count = parse_result(text, limit, offset)
+
+    # return song_data, song_count
+    return [list(filter(None, songs_data)), songs_count]
+
+
+def make_markup_keyboard(text, songs_data, pager):
     try:
-        print('----------------------')
-        songs_data, songs_count = parse_result(text, limit, offset)
-        songs_data = list(filter(None, songs_data))
+        # songs_data, songs_count = parse_result(text, limit, offset)
+        # songs_data = list(filter(None, songs_data))
 
-        pager = Page(songs_count, limit, offset)
+        # pager = Page(songs_count, limit, offset)
 
         songs_buttons = build_download_keyboard(songs_data)
 
         if songs_buttons:
             buttons = attach_pager_buttons(songs_buttons, pager, text)
             keyboard = InlineKeyboardMarkup(buttons)
-            print(keyboard)
             return keyboard
 
     except Exception as ex:
-        print(ex)
+        print('Exception: ', ex.message)
     return None
 
 
@@ -164,14 +175,20 @@ def prev_page(bot, update, *args, **kwargs):
 
 
 def edit_markup(bot, chat_id, message_id, song_name, limit, offset):
-    keyboard = make_markup_keyboard(bot, chat_id, song_name, limit, offset)
+
+    # query = song_name
+    #
+    # songs_data, songs_count = search_by_search_query(query, limit, offset)
+    # pager = Page(songs_count, limit, offset)
+
+    keyboard = get_keyboard(song_name, limit, offset)
     try:
         bot.edit_message_reply_markup(chat_id=chat_id,
                                       message_id=message_id,
                                       inline_message_id=None,
                                       reply_markup=keyboard)
     except Exception as ex:
-        print(ex)
+        print('Exception: ', ex.message)
 
 
 @save_chanel_decorator
@@ -192,6 +209,7 @@ def get_track_link(query_data):
     #     print(e)
     #     result = query_data
     #
+
     # return result
 
 
@@ -261,13 +279,7 @@ def init_handlers(dispatcher):
 
 
 if __name__ == '__main__':
-    # example_data = '/musicset/play/4ba0a8adb8da96f69b0a8919da9fb0fb/1611152.json'
-    #
-    # print(get_track_link(example_data))
-    # print(get_provider_type(example_data))
+    limit = 5
+    offset = 0
+    search_query = 'hardkiss'
 
-    import deezer
-
-    client = deezer.Client()
-    track_id = client.search('hardkiss')[0].id
-    print(client.get_track(track_id).link)

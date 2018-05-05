@@ -5,7 +5,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from peewee import MySQLDatabase
 
-setting_path = os.path.join(Path(dirname(__file__)).parent, '.env.local')
+setting_path = os.path.join(Path(dirname(__file__)).parent, '.env')
 if os.path.isfile(setting_path):
     dotenv_path = join(dirname(__file__), setting_path)
     load_dotenv(dotenv_path)

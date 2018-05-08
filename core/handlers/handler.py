@@ -157,6 +157,12 @@ def next_page(bot, update, *args, **kwargs):
     offset = int(query.data.split('.')[5])
     song_name = query.data.split('.')[7]
 
+    try:
+        task = SearchTask(bot.area.token, bot.area.language, song_name, limit, offset)
+        task_storage.publish(task)
+    except Exception as ex:
+        print(ex)
+
     edit_markup(bot, update.callback_query.message.chat_id, update.callback_query.message.message_id, song_name, limit,
                 offset + limit)
 
@@ -167,6 +173,12 @@ def prev_page(bot, update, *args, **kwargs):
     limit = int(query.data.split('.')[3])
     offset = int(query.data.split('.')[5])
     song_name = query.data.split('.')[7]
+
+    try:
+        task = SearchTask(bot.area.token, bot.area.language, song_name, limit, offset)
+        task_storage.publish(task)
+    except Exception as ex:
+        print(ex)
 
     edit_markup(bot, update.callback_query.message.chat_id, update.callback_query.message.message_id, song_name, limit,
                 offset - limit)

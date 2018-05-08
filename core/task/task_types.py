@@ -26,7 +26,7 @@ class SearchTask(UserRequest, AwarePayloadBuildMethod):
     offset = None
 
     def __init__(self, token, language, query, limit, offset):
-        super(SearchTask, self).__init__(token, language, query, limit, offset)
+        super(SearchTask, self).__init__(token, language)
         self.query = query
         self.limit = limit
         self.offset = offset
@@ -44,7 +44,7 @@ class DownloadTask(UserRequest, AwarePayloadBuildMethod):
     provider = None
 
     def __init__(self, token, language, url, provider):
-        super(DownloadTask, self).__init__(token, language, url, provider)
+        super(DownloadTask, self).__init__(token, language)
         self.url = url
         self.provider = provider
 

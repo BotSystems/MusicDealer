@@ -10,7 +10,7 @@ from core.handlers.finder import parse_result, normalize_download_url
 from core.handlers.messages import Messages
 from core.paging.page import Page
 from core.task.prepare import task_storage
-from core.task.task_types import UploadTask
+from core.task.task_types import UploadTask, SearchTask
 
 messages = Messages()
 
@@ -68,6 +68,13 @@ def is_from_group(update):
 
 @save_chanel_decorator
 def search_track(bot, update):
+
+    try:
+        task = SearchTask(bot.area.token, bot.area.language, update.message.text, Page.DEFAULT_LIMIT, Page.DEFAULT_OFFSET)
+        task_storage.publish(task)
+    except Exception as ex:
+        print(ex)
+
     messages.set_language(bot.area.language)
     message = bot.send_message(update.message.chat.id, messages.get_massage('searching'))
 

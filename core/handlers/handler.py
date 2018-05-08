@@ -70,11 +70,6 @@ def search_track(bot, update):
     messages.set_language(bot.area.language)
     message = bot.send_message(update.message.chat.id, messages.get_massage('searching'))
 
-    # query = update.message.text
-
-    # songs_data, songs_count = search_by_search_query(query, Page.DEFAULT_LIMIT, Page.DEFAULT_OFFSET)
-    # pager = Page(songs_count, Page.DEFAULT_LIMIT, Page.DEFAULT_OFFSET)
-
     keyboard = get_keyboard(update.message.text, Page.DEFAULT_LIMIT, Page.DEFAULT_OFFSET)
 
     try:
@@ -119,6 +114,7 @@ def handle_message(bot, update):
     else:
         search_track(bot, update)
 
+
 def get_keyboard(query, limit, offset):
     songs_data, songs_count = search_by_search_query(query, limit, offset)
     pager = Page(songs_count, limit, offset)
@@ -135,11 +131,6 @@ def search_by_search_query(text, limit, offset):
 
 def make_markup_keyboard(text, songs_data, pager):
     try:
-        # songs_data, songs_count = parse_result(text, limit, offset)
-        # songs_data = list(filter(None, songs_data))
-
-        # pager = Page(songs_count, limit, offset)
-
         songs_buttons = build_download_keyboard(songs_data)
 
         if songs_buttons:

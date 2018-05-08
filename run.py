@@ -1,7 +1,12 @@
+import json
 import os
-
 import telegram
 from flask import Flask, request
+from flask import Response
+
+from core.handlers.handler import make_markup_keyboard
+from core.paging.page import Page
+from core.task.task_storages import AmqpStorage
 
 app = Flask(__name__)
 
@@ -12,47 +17,54 @@ from core.area.models import Area
 storage = Storage(Factory())
 storage.create([area for area in Area.select()])
 
+task_storage = AmqpStorage(os.getenv('CLOUDAMQP_URL'))
+
+print(os.getenv('CLOUDAMQP_URL'))
+
 
 @app.route('/', methods=['GET'])
 def index():
+    # todo: show statistics
     return 'index'
 
 
 @app.route('/telegram/search/result', methods=['POST'])
 def send_menu_data():
-    data = {
-        'data': {
-            'area_id': 1,
-            'chanel_id': 292198768,
-            'result': [
-                [
-                    "\u0421\u043e\u0444\u0438\u044f \u0420\u043e\u0442\u0430\u0440\u0443 - \u041b\u0430\u0432\u0430\u043d\u0434\u0430",
-                    "/musicset/play/2fc023f4a3ecbc19edc6fd7e63e53bcf/899010.json",
-                    "zaycev_net"
-                ],
-                [
-                    "\u0421\u043e\u0444\u0438\u044f \u0420\u043e\u0442\u0430\u0440\u0443 - \u0425\u0443\u0442\u043e\u0440\u044f\u043d\u043a\u0430 ",
-                    "/musicset/play/073fc2d7c71cdec0b80f4196155f5855/1682418.json",
-                    "zaycev_net"
-                ],
-                [
-                    "\u0421\u043e\u0444\u0438\u044f \u0420\u043e\u0442\u0430\u0440\u0443 - \u0412\u0430\u043b\u0435\u043d\u0442\u0438\u043d\u0430",
-                    "/musicset/play/3aeb74387e30e213201b127bcf07941a/2391566.json",
-                    "zaycev_net"
-                ]
-            ]
-        }
-    }
+    try:
+        data = request.get_json()
 
-    area = Area.select().where(Area.id == data['data']['area_id']).first()
-    selected_bot = storage.get(area.token)
+        content = data['content']
+        meta = data['meta']
 
-    selected_bot.send_message(data['data']['chanel_id'], 'test')
+        token = meta['token']
+        selected_bot = storage.get(token)
+
+        pager = Page(content['meta']['total'], content['meta']['limit'], content['meta']['offset'])
+        keyboard = make_markup_keyboard(meta['query'], content['data'], pager)
+        selected_bot.send_message(meta['chat_id'], 'test', reply_markup=keyboard)
+
+        return Response(json.dumps({'status': 'ok'}), 200)
+    except Exception as ex:
+        return Response(json.dumps({'status': 'error'}), 500)
 
 
 @app.route('/telegram/download/result', methods=['POST'])
 def send_download_data():
-    pass
+    try:
+        data = request.get_json()
+
+        content = data['content']
+        meta = data['meta']
+
+        token = meta['token']
+
+        selected_bot = storage.get(token)
+
+        selected_bot.send_audio(meta['chat_id'], content['data']['download_url'])
+
+        return Response(json.dumps({'status': 'ok'}), 200)
+    except Exception as ex:
+        return Response(json.dumps({'status': 'error'}), 500)
 
 
 @app.route('/<token>', methods=['POST'])
@@ -68,4 +80,4 @@ if __name__ == '__main__':
     port = int(os.getenv('PORT'))
     debug = os.getenv('DEBUG')
 
-    app.run(host='0.0.0.0', port=port, debug=debug)
+    app.run(host='0.0.0.0', port=5024, debug=debug)

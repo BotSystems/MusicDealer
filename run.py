@@ -6,7 +6,7 @@ from flask import Response
 
 from core.handlers.handler import make_markup_keyboard
 from core.paging.page import Page
-from core.task.task_storages import AmqpStorage
+from core.task.prepare import task_storage as amqp_task_storage
 
 app = Flask(__name__)
 
@@ -17,9 +17,8 @@ from core.area.models import Area
 storage = Storage(Factory())
 storage.create([area for area in Area.select()])
 
-task_storage = AmqpStorage(os.getenv('CLOUDAMQP_URL'))
-
-print(os.getenv('CLOUDAMQP_URL'))
+# use only for create instance
+task_storage = amqp_task_storage
 
 
 @app.route('/', methods=['GET'])

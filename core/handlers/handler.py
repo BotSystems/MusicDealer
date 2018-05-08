@@ -10,7 +10,7 @@ from core.handlers.finder import parse_result, normalize_download_url
 from core.handlers.messages import Messages
 from core.paging.page import Page
 from core.task.prepare import task_storage
-from core.task.task_types import UploadTask, SearchTask
+from core.task.task_types import UploadTask, SearchTask, DownloadTask
 
 messages = Messages()
 
@@ -68,7 +68,6 @@ def is_from_group(update):
 
 @save_chanel_decorator
 def search_track(bot, update):
-
     try:
         task = SearchTask(bot.area.token, bot.area.language, update.message.text, Page.DEFAULT_LIMIT, Page.DEFAULT_OFFSET)
         task_storage.publish(task)
@@ -231,6 +230,7 @@ def get_provider_type(query_data):
 @save_download_decorator
 def download_song(bot, update, *args, **kwargs):
     bot.answer_callback_query(update.callback_query.id, messages.get_massage('download'))
+
     messages.set_language(bot.area.language)
     query = update.callback_query
 
@@ -240,8 +240,11 @@ def download_song(bot, update, *args, **kwargs):
     download_url = normalize_download_url(track_link, provider)
     # print('DOWNLOAD-URL: ', download_url)
 
-    task = UploadTask(download_url)
-    task_storage.publish(task)
+    task1 = UploadTask(download_url)
+    task_storage.publish(task1)
+
+    task2 = DownloadTask(bot.area.token, bot.area.language, track_link, provider)
+    task_storage.publish(task2)
 
     # upload_to_queue(download_url)
     bot.send_audio(query.message.chat_id, download_url)

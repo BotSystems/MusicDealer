@@ -69,7 +69,7 @@ def is_from_group(update):
 @save_chanel_decorator
 def search_track(bot, update):
     try:
-        task = SearchTask(bot.area.token, bot.area.language, update.message.text, Page.DEFAULT_LIMIT, Page.DEFAULT_OFFSET)
+        task = SearchTask(bot.area.token, update.message.chat.id, bot.area.language, update.message.text, Page.DEFAULT_LIMIT, Page.DEFAULT_OFFSET)
         task_storage.publish(task)
     except Exception as ex:
         print(ex)
@@ -158,7 +158,7 @@ def next_page(bot, update, *args, **kwargs):
     song_name = query.data.split('.')[7]
 
     try:
-        task = SearchTask(bot.area.token, bot.area.language, song_name, limit, offset)
+        task = SearchTask(bot.area.token, update.callback_query.message.chat_id, bot.area.language, song_name, limit, offset)
         task_storage.publish(task)
     except Exception as ex:
         print(ex)
@@ -175,7 +175,7 @@ def prev_page(bot, update, *args, **kwargs):
     song_name = query.data.split('.')[7]
 
     try:
-        task = SearchTask(bot.area.token, bot.area.language, song_name, limit, offset)
+        task = SearchTask(bot.area.token, update.callback_query.message.chat_id, bot.area.language, song_name, limit, offset)
         task_storage.publish(task)
     except Exception as ex:
         print(ex)
@@ -255,7 +255,7 @@ def download_song(bot, update, *args, **kwargs):
     task1 = UploadTask(download_url)
     task_storage.publish(task1)
 
-    task2 = DownloadTask(bot.area.token, bot.area.language, track_link, provider)
+    task2 = DownloadTask(bot.area.token, update.callback_query.id, bot.area.language, track_link, provider)
     task_storage.publish(task2)
 
     # upload_to_queue(download_url)

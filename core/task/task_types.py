@@ -11,10 +11,12 @@ class AwarePayloadBuildMethod(metaclass=ABCMeta):
 
 class UserRequest(metaclass=ABCMeta):
     token = None
+    channel_id = None
     language = None
 
-    def __init__(self, token, language):
+    def __init__(self, token, channel_id, language):
         self.token = token
+        self.channel_id = channel_id
         self.language = language
 
 
@@ -32,7 +34,7 @@ class SearchTask(UserRequest, AwarePayloadBuildMethod):
         self.offset = offset
 
     def build_payload(self):
-        return {'action_type': self.ACTION_TYPE, 'token': self.token, 'language': self.language, 'query': self.query,
+        return {'channel_id': self.channel_id, 'action_type': self.ACTION_TYPE, 'token': self.token, 'language': self.language, 'query': self.query,
                 'limit':       self.limit,
                 'offset':      self.offset}
 
@@ -49,7 +51,7 @@ class DownloadTask(UserRequest, AwarePayloadBuildMethod):
         self.provider = provider
 
     def build_payload(self):
-        return {'action_type': self.ACTION_TYPE, 'token': self.token, 'language': self.language, 'url': self.url,
+        return {'channel_id': self.channel_id, 'action_type': self.ACTION_TYPE, 'token': self.token, 'language': self.language, 'url': self.url,
                 'provider':    self.provider}
 
 

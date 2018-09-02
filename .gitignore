@@ -1,6 +1,7 @@
 .env
-.pyc
+*.pyc
 .__pycache__/
 .idea/
-/.env.local
+/.env.example
 playground.py
+.directory

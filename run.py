@@ -40,7 +40,20 @@ def send_menu_data():
 
         pager = Page(content['meta']['total'], content['meta']['limit'], content['meta']['offset'])
         keyboard = make_markup_keyboard(meta['query'], content['data'], pager)
-        selected_bot.send_message(meta['chat_id'], 'test', reply_markup=keyboard)
+
+        # selected_bot.send_message(meta['chat_id'], 'test', reply_markup=keyboard)
+
+        parent_message_id = meta['parent_message_id']
+        if parent_message_id:
+            selected_bot.edit_message_text('i_find', meta['chat_id'], parent_message_id, reply_markup=keyboard)
+        else:
+            message_txt = 'Result for :' + meta['query'] if keyboard else 'not found'
+            message = selected_bot.send_message(meta['chat_id'], message_txt, reply_markup=keyboard)
+
+            print(message)
+            print('----------- ')
+
+
 
         return Response(json.dumps({'status': 'ok'}), 200)
     except Exception as ex:
@@ -79,4 +92,4 @@ if __name__ == '__main__':
     port = int(os.getenv('PORT'))
     debug = os.getenv('DEBUG')
 
-    app.run(host='0.0.0.0', port=5024, debug=debug)
+    app.run(host='0.0.0.0', port=5028, debug=debug)

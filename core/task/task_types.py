@@ -27,16 +27,24 @@ class SearchTask(UserRequest, AwarePayloadBuildMethod):
     limit = None
     offset = None
 
-    def __init__(self, token, channel_id, language, query, limit, offset):
+    parent_message_id = None
+
+    def __init__(self, token, channel_id, language, query, parent_message_id, limit, offset):
         super(SearchTask, self).__init__(token, channel_id, language)
         self.query = query
         self.limit = limit
         self.offset = offset
+        self.parent_message_id = parent_message_id
 
     def build_payload(self):
-        return {'channel_id': self.channel_id, 'action_type': self.ACTION_TYPE, 'token': self.token, 'language': self.language, 'query': self.query,
-                'limit':       self.limit,
-                'offset':      self.offset}
+        return {'channel_id': self.channel_id,
+                'action_type': self.ACTION_TYPE,
+                'token': self.token,
+                'language': self.language,
+                'query': self.query,
+                'parent_message_id': self.parent_message_id,
+                'limit': self.limit,
+                'offset': self.offset}
 
 
 class DownloadTask(UserRequest, AwarePayloadBuildMethod):
@@ -51,8 +59,12 @@ class DownloadTask(UserRequest, AwarePayloadBuildMethod):
         self.provider = provider
 
     def build_payload(self):
-        return {'channel_id': self.channel_id, 'action_type': self.ACTION_TYPE, 'token': self.token, 'language': self.language, 'url': self.url,
-                'provider':    self.provider}
+        return {'channel_id': self.channel_id,
+                'action_type': self.ACTION_TYPE,
+                'token': self.token,
+                'language': self.language,
+                'url': self.url,
+                'provider': self.provider}
 
 
 class UploadTask(AwarePayloadBuildMethod):

@@ -69,23 +69,23 @@ def is_from_group(update):
 @save_chanel_decorator
 def search_track(bot, update):
     try:
-        task = SearchTask(bot.area.token, update.message.chat.id, bot.area.language, update.message.text, Page.DEFAULT_LIMIT, Page.DEFAULT_OFFSET)
+        task = SearchTask(bot.area.token, update.message.chat.id, bot.area.language, update.message.text, None, Page.DEFAULT_LIMIT, Page.DEFAULT_OFFSET)
         task_storage.publish(task)
     except Exception as ex:
         print(ex)
 
-    messages.set_language(bot.area.language)
-    message = bot.send_message(update.message.chat.id, messages.get_massage('searching'))
-
-    keyboard = get_keyboard(update.message.text, Page.DEFAULT_LIMIT, Page.DEFAULT_OFFSET)
-
-    try:
-        if keyboard:
-            bot.edit_message_text(messages.get_massage('i_find'), update.message.chat.id, message.message_id, reply_markup=keyboard)
-        else:
-            bot.send_message(update.message.chat.id, messages.get_massage('i_try'))
-    except Exception as ex:
-        print('Exception: ', ex.message)
+    # messages.set_language(bot.area.language)
+    # message = bot.send_message(update.message.chat.id, messages.get_massage('searching'))
+    #
+    # keyboard = get_keyboard(update.message.text, Page.DEFAULT_LIMIT, Page.DEFAULT_OFFSET)
+    #
+    # try:
+    #     if keyboard:
+    #         bot.edit_message_text(messages.get_massage('i_find'), update.message.chat.id, message.message_id, reply_markup=keyboard)
+    #     else:
+    #         bot.send_message(update.message.chat.id, messages.get_massage('i_try'))
+    # except Exception as ex:
+    #     print('Exception: ', ex.message)
 
 
 def broadcast(bot, update):
@@ -158,13 +158,13 @@ def next_page(bot, update, *args, **kwargs):
     song_name = query.data.split('.')[7]
 
     try:
-        task = SearchTask(bot.area.token, update.callback_query.message.chat_id, bot.area.language, song_name, limit, offset)
+        task = SearchTask(bot.area.token, update.callback_query.message.chat_id, bot.area.language, song_name, update.callback_query.message.message_id, limit, offset)
         task_storage.publish(task)
     except Exception as ex:
         print(ex)
 
-    edit_markup(bot, update.callback_query.message.chat_id, update.callback_query.message.message_id, song_name, limit,
-                offset + limit)
+    # edit_markup(bot, update.callback_query.message.chat_id, update.callback_query.message.message_id, song_name, limit,
+    #             offset + limit)
 
 
 def prev_page(bot, update, *args, **kwargs):
@@ -175,13 +175,13 @@ def prev_page(bot, update, *args, **kwargs):
     song_name = query.data.split('.')[7]
 
     try:
-        task = SearchTask(bot.area.token, update.callback_query.message.chat_id, bot.area.language, song_name, limit, offset)
+        task = SearchTask(bot.area.token, update.callback_query.message.chat_id, bot.area.language, song_name, update.callback_query.message.message_id, limit, offset)
         task_storage.publish(task)
     except Exception as ex:
         print(ex)
 
-    edit_markup(bot, update.callback_query.message.chat_id, update.callback_query.message.message_id, song_name, limit,
-                offset - limit)
+    # edit_markup(bot, update.callback_query.message.chat_id, update.callback_query.message.message_id, song_name, limit,
+    #             offset - limit)
 
 
 def edit_markup(bot, chat_id, message_id, song_name, limit, offset):

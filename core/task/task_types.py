@@ -28,13 +28,15 @@ class SearchTask(UserRequest, AwarePayloadBuildMethod):
     offset = None
 
     parent_message_id = None
+    postback_url = None
 
-    def __init__(self, token, channel_id, language, query, parent_message_id, limit, offset):
+    def __init__(self, token, channel_id, language, query, parent_message_id, limit, offset, postback_url):
         super(SearchTask, self).__init__(token, channel_id, language)
         self.query = query
         self.limit = limit
         self.offset = offset
         self.parent_message_id = parent_message_id
+        self.postback_url = postback_url
 
     def build_payload(self):
         return {'channel_id': self.channel_id,
@@ -44,7 +46,8 @@ class SearchTask(UserRequest, AwarePayloadBuildMethod):
                 'query': self.query,
                 'parent_message_id': self.parent_message_id,
                 'limit': self.limit,
-                'offset': self.offset}
+                'offset': self.offset,
+                'postback_url': self.postback_url}
 
 
 class DownloadTask(UserRequest, AwarePayloadBuildMethod):
@@ -52,11 +55,13 @@ class DownloadTask(UserRequest, AwarePayloadBuildMethod):
 
     url = None
     provider = None
+    postback_url = None
 
-    def __init__(self, token, channel_id, language, url, provider):
+    def __init__(self, token, channel_id, language, url, provider, postback_url):
         super(DownloadTask, self).__init__(token, channel_id, language)
         self.url = url
         self.provider = provider
+        self.postback_url = postback_url
 
     def build_payload(self):
         return {'channel_id': self.channel_id,
@@ -64,7 +69,8 @@ class DownloadTask(UserRequest, AwarePayloadBuildMethod):
                 'token': self.token,
                 'language': self.language,
                 'url': self.url,
-                'provider': self.provider}
+                'provider': self.provider,
+                'postback_url': self.postback_url}
 
 
 class UploadTask(AwarePayloadBuildMethod):

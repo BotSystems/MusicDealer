@@ -69,7 +69,7 @@ def is_from_group(update):
 @save_chanel_decorator
 def search_track(bot, update):
     try:
-        task = SearchTask(bot.area.token, update.message.chat.id, bot.area.language, update.message.text, None, Page.DEFAULT_LIMIT, Page.DEFAULT_OFFSET)
+        task = SearchTask(bot.area.token, update.message.chat.id, bot.area.language, update.message.text, None, Page.DEFAULT_LIMIT, Page.DEFAULT_OFFSET, os.getenv('POSTBACK_SEARCH_URL'))
         task_storage.publish(task)
     except Exception as ex:
         print(ex)
@@ -158,7 +158,7 @@ def next_page(bot, update, *args, **kwargs):
     song_name = query.data.split('.')[7]
 
     try:
-        task = SearchTask(bot.area.token, update.callback_query.message.chat_id, bot.area.language, song_name, update.callback_query.message.message_id, limit, offset)
+        task = SearchTask(bot.area.token, update.callback_query.message.chat_id, bot.area.language, song_name, update.callback_query.message.message_id, limit, offset, os.getenv('POSTBACK_SEARCH_URL'))
         task_storage.publish(task)
     except Exception as ex:
         print(ex)
@@ -175,7 +175,7 @@ def prev_page(bot, update, *args, **kwargs):
     song_name = query.data.split('.')[7]
 
     try:
-        task = SearchTask(bot.area.token, update.callback_query.message.chat_id, bot.area.language, song_name, update.callback_query.message.message_id, limit, offset)
+        task = SearchTask(bot.area.token, update.callback_query.message.chat_id, bot.area.language, song_name, update.callback_query.message.message_id, limit, offset, os.getenv('POSTBACK_SEARCH_URL'))
         task_storage.publish(task)
     except Exception as ex:
         print(ex)

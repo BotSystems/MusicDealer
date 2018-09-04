@@ -257,9 +257,9 @@ def download_song(bot, update, *args, **kwargs):
 
     task2 = DownloadTask(bot.area.token, update.callback_query.id, bot.area.language, track_link, provider, os.getenv('POSTBACK_DOWNLOAD_URL'))
     task_storage.publish(task2)
-
-    # upload_to_queue(download_url)
-    bot.send_audio(query.message.chat_id, download_url)
+    #
+    # # upload_to_queue(download_url)
+    # bot.send_audio(query.message.chat_id, download_url)
 
 
 @save_chanel_decorator

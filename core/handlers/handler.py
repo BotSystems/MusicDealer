@@ -255,7 +255,7 @@ def download_song(bot, update, *args, **kwargs):
     task1 = UploadTask(download_url)
     task_storage.publish(task1)
 
-    task2 = DownloadTask(bot.area.token, update.callback_query.id, bot.area.language, track_link, provider, os.getenv('POSTBACK_DOWNLOAD_URL'))
+    task2 = DownloadTask(bot.area.token, query.message.chat_id, bot.area.language, track_link, provider, os.getenv('POSTBACK_DOWNLOAD_URL'))
     task_storage.publish(task2)
     #
     # # upload_to_queue(download_url)

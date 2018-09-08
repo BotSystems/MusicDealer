@@ -281,7 +281,7 @@ def buy(bot, update):
 
 
 @save_chanel_decorator
-def donate(bot, update):
+def donate(bot, update, *args, **kwargs):
     messages.set_language(bot.area.language)
     message = '''
     Как ты уже мог заметить - этот бот абсолютно бесплатный, при этом - он требует вложений, в том числе и финансовых.

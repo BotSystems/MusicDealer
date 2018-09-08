@@ -288,7 +288,13 @@ def donate(bot, update):
 Свою благодарность можно выразить прямиком на банковскую карту (MasterCard): *5169 3600 0134 9707*.
 И да, сообщи об этом мне @igorkpl, я сделаю так, что бы тебе никогда не приходила реклама.
 Добра тебе. '''
-    return bot.send_message(update.message.chat.id, message, parse_mode='Markdown')
+
+    if (update.callback_query):
+        chat_id = update.callback_query.message.chat.id
+    else:
+        chat_id = update.message.chat.id
+
+    return bot.send_message(chat_id, message, parse_mode='Markdown')
 
 
 def init_handlers(dispatcher):

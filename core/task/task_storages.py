@@ -20,7 +20,6 @@ class AmqpStorage:
         self.channel = self.connection.channel()
 
     def publish(self, task):
-
         queue = self.QUEUES.get(task.__class__.__name__)
 
         data = json.dumps({'payload': task.build_payload()})
@@ -31,8 +30,6 @@ class AmqpStorage:
             print('Add task has been successfully')
         except Exception as ex:
             print('Exception: ', str(ex))
-            print('Reconnect')
-            self.publish(task)
 
 
 if __name__ == '__main__':

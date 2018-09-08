@@ -45,15 +45,11 @@ def send_menu_data():
 
         parent_message_id = meta['parent_message_id']
         if parent_message_id:
-            selected_bot.edit_message_text('i_find', meta['chat_id'], parent_message_id, reply_markup=keyboard)
+            selected_bot.edit_message_reply_markup(meta['chat_id'], parent_message_id, None, reply_markup=keyboard)
+            # selected_bot.edit_message_text('i_find', meta['chat_id'], parent_message_id, reply_markup=keyboard)
         else:
             message_txt = 'Result for :' + meta['query'] if keyboard else 'not found'
-            message = selected_bot.send_message(meta['chat_id'], message_txt, reply_markup=keyboard)
-
-            print(message)
-            print('----------- ')
-
-
+            selected_bot.send_message(meta['chat_id'], message_txt, reply_markup=keyboard)
 
         return Response(json.dumps({'status': 'ok'}), 200)
     except Exception as ex:

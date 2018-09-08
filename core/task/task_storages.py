@@ -12,20 +12,22 @@ class AmqpStorage:
     }
 
     connection = None
+    channel = None
 
     def __init__(self, cloud_amqp_url):
         parameters = pika.URLParameters(cloud_amqp_url)
         self.connection = pika.BlockingConnection(parameters)
+        self.channel = self.connection.channel()
 
     def publish(self, task):
-        channel = self.connection.channel()
+
         queue = self.QUEUES.get(task.__class__.__name__)
 
         data = json.dumps({'payload': task.build_payload()})
         properties = pika.BasicProperties(content_type='text/plain', delivery_mode=1)
 
         try:
-            channel.basic_publish('', queue, data, properties)
+            self.channel.basic_publish('', queue, data, properties)
             print('Add task has been successfully')
         except Exception as ex:
             print('Exception: ', str(ex))

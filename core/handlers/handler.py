@@ -284,10 +284,9 @@ def buy(bot, update):
 def donate(bot, update, *args, **kwargs):
     messages.set_language(bot.area.language)
     message = '''
-    Как ты уже мог заметить - этот бот абсолютно бесплатный, при этом - он требует вложений, в том числе и финансовых.
-Свою благодарность можно выразить прямиком на банковскую карту (MasterCard): *5169 3600 0134 9707*.
-И да, сообщи об этом мне @igorkpl, я сделаю так, что бы тебе никогда не приходила реклама.
-Добра тебе. '''
+    *[RU]* Нравится бот? Поддержи его: *5169 3600 0134 9707* (visa/mastercard)
+    
+    *[EN]* Like this? Donate: *5169 3600 0134 9707* (visa/mastercard)'''
 
     if (update.callback_query):
         chat_id = update.callback_query.message.chat.id

@@ -30,7 +30,9 @@ class AmqpStorage:
             self.channel.basic_publish('', queue, data, properties)
             print('Add task has been successfully')
         except Exception as ex:
-            print('Exception: ', ex)
+            print('Exception: ', str(ex))
+            print('Reconnect')
+            self.publish(task)
 
 
 if __name__ == '__main__':

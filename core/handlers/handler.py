@@ -281,7 +281,7 @@ def buy(bot, update, *args, **kwargs):
     else:
         chat_id = update.message.chat.id
 
-    return bot.send_message(chat_id, message)
+    return bot.send_message(chat_id, message, parse_mode='Markdown')
 
 
 @save_chanel_decorator

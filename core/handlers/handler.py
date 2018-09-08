@@ -120,8 +120,14 @@ def is_group_available_for_broadcast(bot, update, callback):
         callback(bot, update)
 
 
+def ready_for_broadcast(bot, update):
+    available_groups = os.getenv('AVAILABLE_CHANNELS', '').split(',')
+
+    return update.channel_post.chat.username in available_groups
+
+
 def handle_message(bot, update):
-    if is_from_group(update):
+    if is_from_group(update) and ready_for_broadcast(bot, update):
         is_group_available_for_broadcast(bot, update, broadcast)
     else:
         search_track(bot, update)

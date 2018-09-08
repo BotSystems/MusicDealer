@@ -44,7 +44,7 @@ def build_download_keyboard(songs_data):
 
 
 def attach_donate_buttons(buttons):
-    dotate_button = [[InlineKeyboardButton('💵 DONATE', callback_data='call-donate')]]
+    dotate_button = [[InlineKeyboardButton('DONATE', callback_data='call-donate')]]
     return buttons + dotate_button
 
 

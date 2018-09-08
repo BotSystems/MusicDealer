@@ -43,6 +43,11 @@ def build_download_keyboard(songs_data):
     return download_buttons
 
 
+def attach_donate_buttons(buttons):
+    dotate_button = [InlineKeyboardButton('💶💶💶💶💶💶💵💵💵💵💵💵💵💵💵💵💵💵💵💵💶💶💶💶💶💶💶💶💶💶💶💵💶💶💶 DONATE', callback_data='call-donate')]
+    return buttons + dotate_button
+
+
 def attach_pager_buttons(buttons, pager, song_name):
     limit, offset = pager.limit, pager.offset
     pagination_buttons = [[]]
@@ -142,6 +147,7 @@ def make_markup_keyboard(text, songs_data, pager):
 
         if songs_buttons:
             buttons = attach_pager_buttons(songs_buttons, pager, text)
+            buttons = attach_donate_buttons(buttons)
             keyboard = InlineKeyboardMarkup(buttons)
             return keyboard
 

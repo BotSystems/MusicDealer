@@ -42,6 +42,11 @@ def build_download_keyboard(songs_data):
     return download_buttons
 
 
+def attach_donate_buttons(buttons):
+    dotate_button = [[InlineKeyboardButton('DONATE', callback_data='call-donate')]]
+    return buttons + dotate_button
+
+
 def attach_pager_buttons(buttons, pager, song_name):
     limit, offset = pager.limit, pager.offset
     pagination_buttons = [[]]
@@ -132,8 +137,8 @@ def make_markup_keyboard(bot, chat_id, text, limit, offset):
 
         if songs_buttons:
             buttons = attach_pager_buttons(songs_buttons, pager, text)
+            buttons = attach_donate_buttons(buttons)
             keyboard = InlineKeyboardMarkup(buttons)
-            print(keyboard)
             return keyboard
 
     except Exception as ex:
@@ -227,26 +232,39 @@ def download_song(bot, update, *args, **kwargs):
 
 
 @save_chanel_decorator
-def buy(bot, update):
+def buy(bot, update, *args, **kwargs):
     messages.set_language(bot.area.language)
     message = '''
-    Хочешь такого же бота?
-Напиши мне @igorkpl
-Стоимость подключения - 49$
-Средства пойдут на покупку серверов и подключение других музыкальных сервисов.
-Добра тебе. '''
-    return bot.send_message(update.message.chat.id, message)
+    *[RU]* Хочешь такого же бота?  
+Подключение $5/мес: @igorkpl  
+
+*[EN]* You want this same?  
+Connect $5/month: @igorkpl '''
+
+    if (update.callback_query):
+        chat_id = update.callback_query.message.chat.id
+    else:
+        chat_id = update.message.chat.id
+
+    return bot.send_message(chat_id, message, parse_mode='Markdown')
 
 
 @save_chanel_decorator
-def donate(bot, update):
+def donate(bot, update, *args, **kwargs):
     messages.set_language(bot.area.language)
     message = '''
-    Как ты уже мог заметить - этот бот абсолютно бесплатный, при этом - он требует вложений, в том числе и финансовых.
-Свою благодарность можно выразить прямиком на банковскую карту (MasterCard): *5169 3600 0134 9707*.
-И да, сообщи об этом мне @igorkpl, я сделаю так, что бы тебе никогда не приходила реклама.
-Добра тебе. '''
-    return bot.send_message(update.message.chat.id, message, parse_mode='Markdown')
+    *[RU]* Нравится бот?  
+Поддержи его: *5169 3600 0134 9707*  
+
+*[EN]* Like this?  
+Donate: *5169 3600 0134 9707*'''
+
+    if (update.callback_query):
+        chat_id = update.callback_query.message.chat.id
+    else:
+        chat_id = update.message.chat.id
+
+    return bot.send_message(chat_id, message, parse_mode='Markdown')
 
 
 def init_handlers(dispatcher):
@@ -254,6 +272,7 @@ def init_handlers(dispatcher):
     dispatcher.add_handler(MessageHandler(Filters.text, handle_message))
     dispatcher.add_handler(CallbackQueryHandler(prev_page, True, False, 'pager.prev.*'))
     dispatcher.add_handler(CallbackQueryHandler(next_page, True, False, 'pager.next.*'))
+    dispatcher.add_handler(CallbackQueryHandler(donate, True, False, 'call-donate'))
     dispatcher.add_handler(CallbackQueryHandler(download_song, pass_update_queue=True))
     dispatcher.add_handler(CommandHandler('buy', buy))
     dispatcher.add_handler(CommandHandler('donate', donate))

@@ -296,6 +296,7 @@ def init_handlers(dispatcher):
     dispatcher.add_handler(MessageHandler(Filters.text, handle_message))
     dispatcher.add_handler(CallbackQueryHandler(prev_page, True, False, 'pager.prev.*'))
     dispatcher.add_handler(CallbackQueryHandler(next_page, True, False, 'pager.next.*'))
+    dispatcher.add_handler(CallbackQueryHandler(donate, True, False, 'call-donate'))
     dispatcher.add_handler(CallbackQueryHandler(download_song, pass_update_queue=True))
     dispatcher.add_handler(CommandHandler('buy', buy))
     dispatcher.add_handler(CommandHandler('donate', donate))

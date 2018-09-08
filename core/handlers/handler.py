@@ -269,15 +269,19 @@ def download_song(bot, update, *args, **kwargs):
 
 
 @save_chanel_decorator
-def buy(bot, update):
+def buy(bot, update, *args, **kwargs):
     messages.set_language(bot.area.language)
     message = '''
-    Хочешь такого же бота?
-Напиши мне @igorkpl
-Стоимость подключения - 49$
-Средства пойдут на покупку серверов и подключение других музыкальных сервисов.
-Добра тебе. '''
-    return bot.send_message(update.message.chat.id, message)
+    *[RU]* Хочешь такого же бота? Подключение $5/мес: @igorkpl  
+
+*[EN]* You want this same? Connect $5/month: @igorkpl '''
+
+    if (update.callback_query):
+        chat_id = update.callback_query.message.chat.id
+    else:
+        chat_id = update.message.chat.id
+
+    return bot.send_message(chat_id, message)
 
 
 @save_chanel_decorator

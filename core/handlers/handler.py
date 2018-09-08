@@ -284,9 +284,9 @@ def buy(bot, update):
 def donate(bot, update, *args, **kwargs):
     messages.set_language(bot.area.language)
     message = '''
-    *[RU]* Нравится бот? Поддержи его: *5169 3600 0134 9707* (visa/mastercard)  
+    *[RU]* Нравится бот? Поддержи его: *5169 3600 0134 9707*  
 
-*[EN]* Like this? Donate: *5169 3600 0134 9707* (visa/mastercard)'''
+*[EN]* Like this? Donate: *5169 3600 0134 9707*'''
 
     if (update.callback_query):
         chat_id = update.callback_query.message.chat.id

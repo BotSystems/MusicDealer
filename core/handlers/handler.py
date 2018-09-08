@@ -272,9 +272,9 @@ def download_song(bot, update, *args, **kwargs):
 def buy(bot, update, *args, **kwargs):
     messages.set_language(bot.area.language)
     message = '''
-    *[RU]* Хочешь такого же бота? Подключение $5/мес: @igorkpl  
+    *[RU]* Хочешь такого же бота?  Подключение $5/мес: @igorkpl  
 
-*[EN]* You want this same? Connect $5/month: @igorkpl '''
+*[EN]* You want this same?  Connect $5/month: @igorkpl '''
 
     if (update.callback_query):
         chat_id = update.callback_query.message.chat.id
@@ -288,9 +288,9 @@ def buy(bot, update, *args, **kwargs):
 def donate(bot, update, *args, **kwargs):
     messages.set_language(bot.area.language)
     message = '''
-    *[RU]* Нравится бот? Поддержи его: *5169 3600 0134 9707*  
+    *[RU]* Нравится бот?  Поддержи его: *5169 3600 0134 9707*  
 
-*[EN]* Like this? Donate: *5169 3600 0134 9707*'''
+*[EN]* Like this?  Donate: *5169 3600 0134 9707*'''
 
     if (update.callback_query):
         chat_id = update.callback_query.message.chat.id

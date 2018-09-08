@@ -158,7 +158,7 @@ def next_page(bot, update, *args, **kwargs):
     song_name = query.data.split('.')[7]
 
     try:
-        task = SearchTask(bot.area.token, update.callback_query.message.chat_id, bot.area.language, song_name, update.callback_query.message.message_id, limit, offset, os.getenv('POSTBACK_SEARCH_URL'))
+        task = SearchTask(bot.area.token, update.callback_query.message.chat_id, bot.area.language, song_name, update.callback_query.message.message_id, limit, offset + limit, os.getenv('POSTBACK_SEARCH_URL'))
         task_storage.publish(task)
     except Exception as ex:
         print(ex)
@@ -175,7 +175,7 @@ def prev_page(bot, update, *args, **kwargs):
     song_name = query.data.split('.')[7]
 
     try:
-        task = SearchTask(bot.area.token, update.callback_query.message.chat_id, bot.area.language, song_name, update.callback_query.message.message_id, limit, offset, os.getenv('POSTBACK_SEARCH_URL'))
+        task = SearchTask(bot.area.token, update.callback_query.message.chat_id, bot.area.language, song_name, update.callback_query.message.message_id, limit, offset - limit, os.getenv('POSTBACK_SEARCH_URL'))
         task_storage.publish(task)
     except Exception as ex:
         print(ex)

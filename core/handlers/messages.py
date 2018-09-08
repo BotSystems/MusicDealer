@@ -7,7 +7,7 @@ class Messages:
             'i_try': '😭 Я действительно старался, но нет ничего :(',
             'open_adv': 'Открыть',
             'download': '🔊 Загрузка...',
-            'result': 'Результат'
+            'result': 'Результат по запросу'
         },
         'en': {
             'intro': 'It`s time for good music. I`m ready to search for your favorite tracks, where do we start? 🤗',
@@ -16,7 +16,7 @@ class Messages:
             'i_try': '😭 I really tried but i can`t find anything :(',
             'open_adv': 'Open',
             'download': '🔊 Download...',
-            'result': 'Result'
+            'result': 'Result by request'
         }
     }
     DEFAULT_LANGUAGE = 'ru'

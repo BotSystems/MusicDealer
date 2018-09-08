@@ -52,10 +52,10 @@ def send_menu_data():
             # selected_bot.edit_message_text('i_find', meta['chat_id'], parent_message_id, reply_markup=keyboard)
         else:
             messages.set_language(selected_bot.area.language)
-            message = messages.get_massage('result') + ': ' + meta['query'][:30] if keyboard else messages.get_massage('i_try')
+            message = messages.get_massage('result') + ': ' + '*' + meta['query'][:30].capitalize() + '*' if keyboard else messages.get_massage('i_try')
 
             # message_txt = 'Result for :' + meta['query'] if keyboard else 'not found'
-            selected_bot.send_message(meta['chat_id'], message, reply_markup=keyboard)
+            selected_bot.send_message(meta['chat_id'], message, reply_markup=keyboard, parse_mode='Markdown')
 
         return Response(json.dumps({'status': 'ok'}), 200)
     except Exception as ex:

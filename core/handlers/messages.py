@@ -6,7 +6,8 @@ class Messages:
             'i_find': '🎶 Смотри, что я нашел:',
             'i_try': '😭 Я действительно старался, но нет ничего :(',
             'open_adv': 'Открыть',
-            'download': '🔊 Загрузка...'
+            'download': '🔊 Загрузка...',
+            'result': 'Результат'
         },
         'en': {
             'intro': 'It`s time for good music. I`m ready to search for your favorite tracks, where do we start? 🤗',
@@ -14,7 +15,8 @@ class Messages:
             'i_find': '🎶 Check this sounds, bro:',
             'i_try': '😭 I really tried but i can`t find anything :(',
             'open_adv': 'Open',
-            'download': '🔊 Download...'
+            'download': '🔊 Download...',
+            'result': 'Result'
         }
     }
     DEFAULT_LANGUAGE = 'ru'

@@ -5,6 +5,7 @@ from flask import Flask, request
 from flask import Response
 
 from core.handlers.handler import make_markup_keyboard
+from core.handlers.messages import Messages
 from core.paging.page import Page
 from core.task.prepare import task_storage as amqp_task_storage
 
@@ -19,6 +20,8 @@ storage.create([area for area in Area.select()])
 
 # use only for create instance
 task_storage = amqp_task_storage
+
+messages = Messages()
 
 
 @app.route('/', methods=['GET'])
@@ -48,8 +51,11 @@ def send_menu_data():
             selected_bot.edit_message_reply_markup(meta['chat_id'], parent_message_id, None, reply_markup=keyboard)
             # selected_bot.edit_message_text('i_find', meta['chat_id'], parent_message_id, reply_markup=keyboard)
         else:
-            message_txt = 'Result for :' + meta['query'] if keyboard else 'not found'
-            selected_bot.send_message(meta['chat_id'], message_txt, reply_markup=keyboard)
+            messages.set_language(selected_bot.area.language)
+            message = messages.get_massage('result') + ': ' + meta['query'][:30] if keyboard else messages.get_massage('i_try')
+
+            # message_txt = 'Result for :' + meta['query'] if keyboard else 'not found'
+            selected_bot.send_message(meta['chat_id'], message, reply_markup=keyboard)
 
         return Response(json.dumps({'status': 'ok'}), 200)
     except Exception as ex:

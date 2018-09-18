@@ -30,7 +30,7 @@ class AmqpStorage:
             self.connection = pika.BlockingConnection(self.parameters)
             self.channel = self.connection.channel()
             self.channel.exchange_declare('user_actions')
-            self.channel.basic_publish('user_actions', 'actions', data, properties)
+            self.channel.basic_publish('user_actions', queue, data, properties)
             print('Add task has been successfully')
         except Exception as ex:
             print('Exception: ', str(ex))

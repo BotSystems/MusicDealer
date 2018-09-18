@@ -11,12 +11,13 @@ class AmqpStorage:
         'UploadTask':   'track_downloads',
     }
 
-    connection = None
+    # connection = None
     # channel = None
+    parameters = None
 
     def __init__(self, cloud_amqp_url):
-        parameters = pika.URLParameters(cloud_amqp_url)
-        self.connection = pika.BlockingConnection(parameters)
+        self.parameters = pika.URLParameters(cloud_amqp_url)
+        # self.connection = pika.BlockingConnection(parameters)
         # self.channel = self.connection.channel()
 
     def publish(self, task):
@@ -25,7 +26,8 @@ class AmqpStorage:
         data = json.dumps({'payload': task.build_payload()})
         properties = pika.BasicProperties(content_type='text/plain', delivery_mode=1)
 
-        channel = self.connection.channel()
+        connection = pika.BlockingConnection(self.parameters)
+        channel = connection.channel()
         try:
             channel.basic_publish('', queue, data, properties)
             print('Add task has been successfully')

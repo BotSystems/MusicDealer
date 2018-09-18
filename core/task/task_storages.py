@@ -18,6 +18,7 @@ class AmqpStorage:
         parameters = pika.URLParameters(cloud_amqp_url)
         self.connection = pika.BlockingConnection(parameters)
         self.channel = self.connection.channel()
+
         self.channel.exchange_declare('user_actions')
 
     def publish(self, task):

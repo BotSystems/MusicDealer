@@ -13,13 +13,11 @@ class AmqpStorage:
 
     connection = None
     channel = None
+    parameters = None
 
     def __init__(self, cloud_amqp_url):
-        parameters = pika.URLParameters(cloud_amqp_url)
-        self.connection = pika.BlockingConnection(parameters)
-        self.channel = self.connection.channel()
+        self.parameters = pika.URLParameters(cloud_amqp_url)
 
-        self.channel.exchange_declare('user_actions')
 
     def publish(self, task):
         queue = self.QUEUES.get(task.__class__.__name__)
@@ -29,10 +27,18 @@ class AmqpStorage:
 
         # channel = self.connection.channel()
         try:
+            self.connection = pika.BlockingConnection(self.parameters)
+            self.channel = self.connection.channel()
+            self.channel.exchange_declare('user_actions')
             self.channel.basic_publish('user_actions', 'actions', data, properties)
             print('Add task has been successfully')
         except Exception as ex:
             print('Exception: ', str(ex))
+
+        try:
+            self.connection.close()
+        except Exception:
+            pass
 
 
 if __name__ == '__main__':

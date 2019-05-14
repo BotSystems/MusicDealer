@@ -12,7 +12,7 @@ from core.handlers.messages import Messages
 from core.paging.page import Page
 from urllib.request import urlopen
 import requests
-import StringIO
+from io import StringIO
 
 messages = Messages()
 

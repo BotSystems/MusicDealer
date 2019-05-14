@@ -11,6 +11,7 @@ from core.handlers.finder import parse_result, normalize_download_url
 from core.handlers.messages import Messages
 from core.paging.page import Page
 from urllib.request import urlopen
+import requests
 
 messages = Messages()
 
@@ -235,7 +236,9 @@ def download_song(bot, update, *args, **kwargs):
         # f.read()
         # result = bot.send_audio(query.message.chat_id, f.read())
 
-        result = bot.send_audio(query.message.chat_id, download_url)
+        u = requests.get(download_url, stream=True)
+
+        result = bot.send_audio(query.message.chat_id, u.content)
         print(result)
     except Exception as e:
 

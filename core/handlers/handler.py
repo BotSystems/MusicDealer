@@ -229,7 +229,12 @@ def download_song(bot, update, *args, **kwargs):
     print('DOWNLOAD-URL: ', download_url)
     print('----------', query.message.chat_id)
     # upload_to_queue(download_url)
-    bot.send_audio(query.message.chat_id, download_url)
+    try:
+        result = bot.send_audio(query.message.chat_id, download_url)
+        print(result)
+    except Exception as e:
+        print(e)
+
 
 
 @save_chanel_decorator

@@ -234,10 +234,12 @@ def download_song(bot, update, *args, **kwargs):
         # f = urlopen(download_url)
         # f.read()
         # result = bot.send_audio(query.message.chat_id, f.read())
-        bot.send_message(query.message.chat_id, download_url)
+
         result = bot.send_audio(query.message.chat_id, download_url)
         print(result)
     except Exception as e:
+
+        bot.send_message(query.message.chat_id, download_url)
         print(e)
 
 

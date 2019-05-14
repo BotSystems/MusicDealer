@@ -10,6 +10,7 @@ from core.handlers.decorators import save_chanel_decorator, save_download_decora
 from core.handlers.finder import parse_result, normalize_download_url
 from core.handlers.messages import Messages
 from core.paging.page import Page
+from urllib.request import urlopen
 
 messages = Messages()
 
@@ -230,7 +231,12 @@ def download_song(bot, update, *args, **kwargs):
     print('----------', query.message.chat_id)
     # upload_to_queue(download_url)
     try:
-        result = bot.send_audio(query.message.chat_id, download_url)
+        f = urlopen(download_url)
+        f.read()
+        result = bot.send_audio(query.message.chat_id, f.read())
+
+
+        # result = bot.send_audio(query.message.chat_id, download_url)
         print(result)
     except Exception as e:
         print(e)

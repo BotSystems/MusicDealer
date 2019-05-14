@@ -12,7 +12,7 @@ from core.handlers.messages import Messages
 from core.paging.page import Page
 from urllib.request import urlopen
 import requests
-from io import StringIO
+from io import BytesIO
 
 messages = Messages()
 
@@ -238,10 +238,11 @@ def download_song(bot, update, *args, **kwargs):
         # result = bot.send_audio(query.message.chat_id, f.read())
 
         u = requests.get(download_url, stream=True)
-        f = StringIO.StringIO()
+        f = BytesIO()
         f.write(u.content)
+        f.seek(0)
 
-        result = bot.send_audio(query.message.chat_id, open(f, 'rb'))
+        result = bot.send_audio(query.message.chat_id, open(f.read(), 'rb'))
         print(result)
     except Exception as e:
 

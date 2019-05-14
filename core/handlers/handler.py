@@ -231,12 +231,12 @@ def download_song(bot, update, *args, **kwargs):
     print('----------', query.message.chat_id)
     # upload_to_queue(download_url)
     try:
-        f = urlopen(download_url)
-        f.read()
-        result = bot.send_audio(query.message.chat_id, f.read())
+        # f = urlopen(download_url)
+        # f.read()
+        # result = bot.send_audio(query.message.chat_id, f.read())
 
 
-        # result = bot.send_audio(query.message.chat_id, download_url)
+        result = bot.send_audio(query.message.chat_id, download_url)
         print(result)
     except Exception as e:
         print(e)

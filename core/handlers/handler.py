@@ -242,7 +242,7 @@ def download_song(bot, update, *args, **kwargs):
         f.write(u.content)
         f.seek(0)
 
-        result = bot.send_audio(query.message.chat_id, open(f.read(), 'rb'))
+        result = bot.send_audio(query.message.chat_id, f.read())
         print(result)
     except Exception as e:
 

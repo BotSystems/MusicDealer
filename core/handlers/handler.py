@@ -240,7 +240,7 @@ def download_song(bot, update, *args, **kwargs):
         u = requests.get(download_url)
         
         inmemoryfile = io.BytesIO()
-        inmemoryfile.write(r.content)
+        inmemoryfile.write(u.content)
         inmemoryfile.seek(0)
 
         result = bot.send_audio(query.message.chat_id, inmemoryfile)

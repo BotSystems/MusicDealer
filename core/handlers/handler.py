@@ -232,7 +232,7 @@ def download_song(bot, update, *args, **kwargs):
     print('DOWNLOAD-URL: ', url)
     print('----------', query.message.chat_id)
     try:
-        proxies = {'http': 'http://FqX3tB:46VjdC@91.243.52.252:8000'}
+        proxies = {'https': 'https://FqX3tB:46VjdC@91.243.52.252:8000'}
 
         content = requests.get(url, proxies=proxies).content
         # content = requests.get(url, proxies=proxies, stream=True).content

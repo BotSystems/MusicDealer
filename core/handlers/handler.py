@@ -228,32 +228,22 @@ def download_song(bot, update, *args, **kwargs):
     track_link = get_track_link(query.data)
     provider = get_provider_type(query.data)
 
-    download_url = normalize_download_url(track_link, provider)
-    print('DOWNLOAD-URL: ', download_url)
+    url = normalize_download_url(track_link, provider)
+    print('DOWNLOAD-URL: ', url)
     print('----------', query.message.chat_id)
-    # upload_to_queue(download_url)
     try:
-        # f = urlopen(download_url)
-        # f.read()
-        # result = bot.send_audio(query.message.chat_id, f.read())
+        content = requests.get(url, stream=True).content
 
-        # r = requests.get(download_url)
-        
         inmemoryfile = io.BytesIO()
-        inmemoryfile.write(requests.get(download_url, stream=True).content)
+        inmemoryfile.write(content)
         inmemoryfile.seek(0)
 
         bot.send_audio(query.message.chat_id, inmemoryfile)
 
-        # result = bot.send_audio(query.message.chat_id, inmemoryfile)
-        bot.send_message(query.message.chat_id, download_url)
-        # print(result)
+        bot.send_message(query.message.chat_id, url)
     except Exception as e:
-
-        bot.send_message(query.message.chat_id, download_url)
+        bot.send_message(query.message.chat_id, url)
         print(e)
-
-
 
 @save_chanel_decorator
 def buy(bot, update, *args, **kwargs):

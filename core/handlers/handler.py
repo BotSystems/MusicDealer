@@ -245,7 +245,7 @@ def download_song(bot, update, *args, **kwargs):
 
         bot.send_audio(query.message.chat_id, inmemoryfile)
 
-        bot.send_message(query.message.chat_id, url)
+        # bot.send_message(query.message.chat_id, url)
     except Exception as e:
         bot.send_message(query.message.chat_id, url)
         print(e)

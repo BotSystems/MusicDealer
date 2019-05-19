@@ -233,6 +233,7 @@ def download_song(bot, update, *args, **kwargs):
     print('----------', query.message.chat_id)
     try:
         content = requests.get(url, stream=True).content
+        print(content)
 
         inmemoryfile = io.BytesIO()
         inmemoryfile.write(content)
